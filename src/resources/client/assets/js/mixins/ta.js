@@ -1,0 +1,55 @@
+export default{
+    data(){
+        return{
+            ta:{
+                DateOfBirth:" பிறந்த தேதி",
+                Gender: "பாலினம்",
+                PanCardNo :" பான்கார்டு எண்",
+                Address: "முகவரி",
+                Male: "ஆண்",
+                Female:" பெண்",
+                City: "நகரம்",
+                HomeTown:'मूळ गाव',
+                SelfPaidMember:'சுயமாக பணம் செலுத்தும் உறுப்பினர்',
+                AddMembers:'உறுப்பினர்களைச் சேர்க்கவும்',
+                Select:'தேர்ந்தெடு',
+                Phone:'தொலைபேசி',
+                Email:'மின்னஞ்சல்',
+                Relation:'உறவு',
+                State: "நிலை",
+                Country: "நாடு",
+                Pincode: "அஞ்சல் குறியீடு",
+                MarriageAnniversary: "திருமண ஆண்டுவிழா",
+                NomineeforTravelInsurancePolicy: "பயணக் காப்பீட்டுக் கொள்கைக்கான நியமனம்",
+                PreExistingDiseaseforTravelInsurancePolicy:  "பயணக் காப்பீட்டுக் கொள்கைக்கு முன்பே இருக்கும் நோய்",
+                FoodPrefrences:"உணவு விருப்பத்தேர்வுகள்",
+                Veg:'காய்கறி',
+                nonVeg:'அசைவம்',
+                jain:'சமண',
+                PassportDetails: 'பாஸ்போர்ட் விவரங்கள்',
+                IssueDate:'  வெளியீட்டு தேதி',
+                ExpDate: 'காலாவதி தேதி',
+                IssuePlace: 'பிரச்சினை இடம்',
+                FirstName: 'முதல் பெயர்',
+                name:'பெயர்',
+                LastName: 'கடைசி பெயர்',
+                PassportNumber:'கடவுச்சீட்டு எண் ',
+                PhotoID:'புகைப்பட அடையாளம் ',
+                IdType: 'அடையாள வகை',
+                MemberFirstName:'உறுப்பினர் முதல் பெயர்',
+                MemberLastName:'உறுப்பினர் கடைசி பெயர்',
+                IdNumber: 'அடையாள எண்',
+                PassportFront:'பாஸ்போர்ட் முன்',
+            PassportBack: 'பாஸ்போர்ட் திரும்ப',
+            MergedPassport: 'இணைக்கப்பட்ட பாஸ்போர்ட்',
+            PassportUpload: 'பாஸ்போர்ட் பதிவேற்றம்',
+            DocumentUpload: 'ஆவணப் பதிவேற்றம்',
+                OtherDetails:'வேறு தகவல்கள்',
+                formNote:'நீங்கள் பாஸ்போர்ட் படம் அல்லது pdf ஐ இணைத்திருந்தால் மட்டுமே இந்தப் பகுதியைப் பயன்படுத்தவும்!',
+                Yourtraveldateis:'உங்கள் பயணத் தேதி',
+                Selectpreferredtraveldate:'விருப்பமான பயணத் தேதியைத் தேர்ந்தெடுக்கவும்'
+
+            }
+        }
+    }
+}

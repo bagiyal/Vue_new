@@ -1,0 +1,2097 @@
+<template>
+
+    <section class="content-wrapper" style="margin-left: 5% !important;min-height: 960px;">
+        <section class="content-header">
+            <bootstrap-alert />
+            <h1>Query</h1>
+
+        </section>
+        <ul style="width: 50px;height: 500px;list-style: none;margin-left: -30px    ">
+<!--            <li><img src="./../dashboard_resources/createquery.png" style="height:25px;width:25px;" @click="changemenu('create')">-->
+<!--            </li>-->
+<!--            <li><img src="./../dashboard_resources/querylist.png" style="height:25px;width:25px;margin-top: 10px" @click="changemenu('createfull')"></li>-->
+        </ul>
+        <!--        create query-->
+        <div class="activedev" :class="[create ? 'activedev' : 'hidedev' ]" id="msform" style="width: 80%;margin-top:-540px;margin-bottom: 300px;margin-left: 49px;">
+            <!-- progressbar -->
+            <div>
+                                <form-wizard @on-complete="onCompletecreate"
+
+                                             color="rgb(23, 80, 125)">
+                                    <tab-content title="Tour Creation"
+                                                 icon="fa fa-check">
+                                        <fieldset  style="position: absolute; left: 0px;">
+                                            <div  class="container">
+                                                <div  class="row mb-3" style="border: 1px solid white;height: 70px;padding-left: 3px;width: 460px;">
+                                                    <div  class="col-lg-5">
+                                                        <div  class="row">
+                                                            <div  class="col-12">
+                                                                <label  style="font-weight: normal; font-size: 16px; margin-left: -142px;">Date</label>
+                                                            </div>
+                                                            <div  class="col-12">
+                                                                <date-picker
+                                                                        :value="item.driver_pickup_date_time"
+                                                                        :config="$root.dpconfigDatetime"
+                                                                        name="driver_pickup_date_time"
+
+                                                                        @dp-change="updateDriver_pickup_date_time"
+                                                                >
+                                                                </date-picker>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div  class="col-lg-4" style="margin-left: -20px;">
+                                                        <div  class="row">
+                                                            <div  class="col-12">
+                                                                <label  style="font-weight: normal;margin-left: 140px;font-size: 16px;width: 70px;">Meal Plan</label>
+                                                            </div>
+                                                            <div  class="row" :value="item.meals_supplement"
+                                                                  @input="updateMeals_supplement">
+                                                                <div  class="col-3" style="font-size: 10px;position: absolute;left: 144px;top: 36px;font-weight: bold;">
+                                                                    <img  height="20px" width="20px" src="./../dashboard_resources/bfdown.png" alt="task"><br >
+                                                                    <img  height="20px" width="20px" src="./../dashboard_resources/bfup.png" alt="task">
+                                                                    <span  style="left: 19px; position: absolute;">BF</span>
+                                                                </div>
+                                                                <div  class="col-3" style="font-size: 10px;position: absolute;left: 176px;top: 36px;">
+                                                                    <img  height="20px" width="20px" src="./../dashboard_resources/lunchdown.png" alt="task"><br >
+                                                                    <img  height="20px" width="20px" src="./../dashboard_resources/lunch.png" alt="task">
+                                                                    <span  style="position: absolute; left: 22px; font-weight: bold;">L</span>
+                                                                </div>
+                                                                <div  class="col-3" style="font-size: 10px;">
+                                                                    <img  height="20px" width="20px" src="./../dashboard_resources/dinnerdown.png" alt="task" style="position: absolute;left: 236px;top: 7px;">
+                                                                    <img  height="20px" width="20px" src="./../dashboard_resources/dinner.png" alt="task" style="position: absolute; left: 236px; top: 27px;">
+                                                                    <br ><span  style="position: absolute;left: 242px;top: 46px;font-weight: bold;">D</span>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+
+                                                <div  class="row mb-3" style="border: 1px solid white;height: 70px;padding-left: 3px;width: 460px;">
+
+                                                </div>
+                                            </div>
+
+
+                                            <div style="position: absolute;left: 586px;top: 11px;width: 275px;">
+                                                Create Own Tour
+                                                <label class="switch">
+                                                    <input type="checkbox" v-model="checked">
+                                                    <span class="slider round"></span>
+                                                </label>
+                                                Select Tour
+                                            </div>
+                                            <div :class="[checked ? 'hidedev' : 'activedev' ]">
+                                                <div class="row mt-4">
+                                                    <div class="col-12" style="margin-bottom: -10px"><p style="color:grey;">Add Location<i style="margin-left: 5px" class="fas fa-calendar-alt"></i></p></div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-8">
+                                                        <v-select placeholder="Select"
+                                                                  name="addlocations"
+                                                                  label="title"
+                                                                  @input="inmodalL"
+
+                                                                  :options="cityAll"
+
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div :class="[checked ? 'activedev' : 'hidedev' ]">
+                                                <div class="row mt-4">
+                                                    <div class="col-12" style="margin-bottom: -10px"><p style="color:grey;">Select Tour<i style="margin-left: 5px" class="fas fa-calendar-alt"></i></p></div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-8">
+                                                        <v-select placeholder="Select"
+                                                                  name="addtours"
+                                                                  label="title"
+                                                                  @input="inmodal"
+                                                                  :value="item.tour"
+                                                                  :options="tourAll"
+
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+                                            <ul id="sortable">
+                                                <draggable v-model="item.tour_location" group="people" @start="drag=true" @end="drag=false">
+                                                    <location-place-component v-for="(location,index ) in item.tour_location"  :key="location.id" :location="location" :index="index" :hotels="hotels[(location.id).split('-')[0]]" :place="places.places_city_id[location.id.split('-')[0]]" :tour_location="item.tour_location" @addplace="addplace"  @delete="remove"></location-place-component>
+                                                </draggable>
+
+                                            </ul>
+
+                <!--                            <input  type="button" name="next" value="Next" class="next action-button" style="margin-left: 140px">-->
+                                        </fieldset>
+                                    </tab-content>
+                                    <tab-content title="Tour Details"
+                                                 icon="fa fa-check">
+                                        <fieldset style="position: absolute;left:0px">
+                                            <div class="container">
+                                                <!--first row-->
+                                                <div  class="row" style="margin-left: 15px;">
+                                                    <div  class="col-lg-6">
+                                                        <div  class="row">
+                                                            <div  class="col-12 text-left">
+                                                                <p  style="font-size: 16px;font-weight: 600;margin-left: -15px;color: darkgrey;">Travelers</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row" style="width:545px">
+                                                            <div class="col-5" style="margin-top: 3px; margin-bottom: 3px; background-color: white;">
+                                                                <div class="row pt-2 pb-2" style="background-color: white;">
+                                                                    <div  class="col-lg-4">
+                                                                        <div class="row" style="margin-left: -26px;">
+                                                                            <div class="col-10 text-center" style="margin-left: -5px;">
+                                                                                <p style="font-size: 10px; color: black; font-weight: bold;">Adults</p>
+                                                                            </div>
+                                                                            <div class="col-10" style="margin-left: -4px">
+                                                                                <p style="font-size: 8px; color: darkgray; margin-top: -15px;">(12+ yrs)</p>
+                                                                            </div>
+                                                                            <div class="col-10" style="margin-top: -10px; padding-right: 11px;">
+                                                                                <input type="number" min="1" style="font-size: 16px; color: grey; width: 46px; border: 1px solid gainsboro; padding: 0px 0px 0px 4px;" :value="item.no_of_adults" @input="updateNo_of_adults">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-3" style="margin-left: -2px;">
+                                                                        <div class="row" style="margin-left: -40px;">
+                                                                            <div class="col-10 text-center">
+                                                                                <p style="font-size: 10px; color: black; font-weight: bold;">Children</p>
+                                                                            </div>
+                                                                            <div class="col-10" style="margin-left: -4px">
+                                                                                <p style="font-size: 8px; color: darkgray; margin-top: -15px;">(2-12 yrs)</p>
+                                                                            </div>
+                                                                            <div class="col-10" style="margin-top: -10px;">
+                                                                                <input type="number" min="0" style="font-size: 16px; color: grey; width: 46px; border: 1px solid gainsboro; padding: 0px 0px 0px 4px;" :value="item.no_of_children" @input="updateNo_of_children">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-3">
+                                                                        <div class="row" style="margin-left: -38px;">
+                                                                            <div class="col-12 text-center" style="margin-left: -10px;">
+                                                                                <p style="font-size: 10px; color: black; font-weight: bold;">Infant</p>
+                                                                            </div>
+                                                                            <div class="col-12" style="margin-left: -4px">
+                                                                                <p style="font-size: 8px; color: darkgray; margin-top: -15px;">(below 2yrs)</p>
+                                                                            </div>
+                                                                            <div class="col-12" style="margin-top: -10px;">
+                                                                                <input type="number" min="0" style="font-size: 16px; color: grey; width: 46px; border: 1px solid gainsboro; padding: 0px 0px 0px 4px;" :value="meta.meta_infant" @input="updatemeta_infant">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="pl-2" style="margin-left: -52px;margin-top: 3px;width: 164px;z-index: 1;margin-bottom: 3px;background-color: white;border-left: 1px solid gainsboro;">
+                                                                <div class="row">
+                                                                    <div class="col-lg-5" style="margin-left: 5px;">
+                                                                        <div class="row pt-2">
+                                                                            <div  class="col-12 text-center">
+                                                                                <p style="font-size: 10px;color: black;font-weight: bold;margin-left: -16px;">Rooms</p>
+                                                                            </div>
+                                                                            <div class="col-12" style="margin-left: -6px">
+                                                                                <p style="font-size: 8px; margin-top: -15px; color: darkgray;">(12+ yrs)</p>
+                                                                            </div>
+                                                                            <div class="col-12" style="margin-top: -10px;">
+                                                                                <input type="number" min="1" style="font-size: 16px; color: grey; width: 46px; border: 1px solid gainsboro; padding: 0px 0px 0px 4px;" :value="item.total_room" @input="updateTotal_room">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-5" style="margin-left: 20px;">
+                                                                        <div class="row pt-2" style="margin-left: -50px;">
+                                                                            <div class="col-12 text-center" style="margin-left:23px">
+                                                                                <p style="font-size: 10px; color: black; font-weight: bold; margin-left: -40px;">Extra Beds</p>
+                                                                            </div>
+                                                                            <div class="col-12" style="margin-left: -6px">
+                                                                                <p style="font-size: 8px; color: darkgrey; margin-top: -15px;">(2-12 yrs)</p>
+                                                                            </div>
+                                                                            <div class="col-12" style="margin-top: -10px;">
+                                                                                <input type="number" min="0" style="font-size: 16px; color: grey; width: 46px; border: 1px solid gainsboro; padding: 0px 0px 0px 4px;" v-model="meta_extra_bed">
+
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div  class="row pt-3">
+                                                            <div  class="col-12">
+                                                                <p  style="font-size: 16px;font-weight: bolder;color: darkgrey;text-align: left;margin-left: -15px;">Transport</p>
+                                                            </div>
+                                                        </div>
+                                                        <div  class="row" style="margin-top: -8px;">
+                                                            <div  class="col-12">
+                                                                <img src="./../dashboard_resources/transport.png" style="height: 25px;width: 25px;position: absolute;left:1px">
+                                                                <select  style="padding-left:30px;width: 120%;margin-left: -15px;color: darkgrey;border: 1px solid gainsboro;border-radius: 5px;">
+                                                                    <option  selected="selected">Cab</option>
+                                                                    <option>Cab</option>
+                                                                    <option>Cab</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div  class="row pt-3">
+                                                            <div  class="col-12">
+                                                                <p  style="color: darkgray; font-size: 14px; font-weight: bold; text-align: left; margin-left: -15px;">Pickup Location</p>
+                                                            </div>
+                                                        </div>
+                                                        <div  class="row" style="margin-top: -8px;">
+                                                            <div  class="col-12">
+                                                                <img  src="./../dashboard_resources/location.png" style="height: 25px;width: 25px;position: absolute;left: 1px;">
+                                                                <select  :value="item.pickup_location"
+                                                                         @input="updatePickup_location"  style="width: 120%;margin-left: -15px;color: darkgrey;border: 1px solid gainsboro;border-radius: 5px;padding-left: 30px;">
+                                                                    <option  selected="selected">Delhi</option>
+                                                                    <option >Cab</option>
+                                                                    <option >Cab</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div  class="col-lg-6" style="position: absolute;left: 470px;">
+                                                        <div  class="row"><div  class="col-12">
+                                                            <p  style="font-size: 16px;font-weight: 500;text-align: left;margin-left: -15px;color: darkgray;">Budget</p>
+                                                        </div>
+                                                        </div>
+                                                        <div  class="row" style="margin-top: -15px;"><div  class="col-12">
+                                                            <img src="./../dashboard_resources/currency.png" style="width: 25px;height: 25px;position: absolute;left: 0px;top: 6px;"><input  type="text" :value="item.budget"  @input="updateBudget" style="padding-left: 24px;color: grey;width: 332px;margin-top: 5px;margin-left: -20px;border: 1px solid gainsboro;border-radius: 5px;">
+                                                            <img  src="./../dashboard_resources/edit.png" style="width: 25px; height: 25px; margin-left: -30px; margin-top: 3px;">
+                                                        </div>
+                                                        </div>
+                                                        <div  class="row pt-3">
+                                                            <div  class="col-12">
+                                                                <p  style="color: darkgray;font-size: 16px;font-weight: 500;text-align: left;margin-left: -15px;">Remark</p>
+                                                            </div>
+                                                            <div  class="row" style="margin-top: -10px;">
+                                                                <div  class="col-12">
+                                                                    <img src="./../dashboard_resources/remark_gray.png" style="width: 25px;height: 25px;position: absolute;left: 18px;top: 3px;"> <textarea  rows="3" cols="50" style="overflow: hidden;border: 1px solid gainsboro;border-radius: 5px;padding-left: 30px;width: 332px;">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been theindustry's standard dummy text ever since the 1500s.</textarea>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                <!--                            <input type="button" name="previous" class="previous action-button" value="Previous" style="margin-left: 140px" />-->
+                <!--                            <input type="button" name="next" class="next action-button" value="Next" />-->
+                                        </fieldset>
+                                    </tab-content>
+                                    <tab-content title="Contacts Details"
+                                                 icon="fa fa-check">
+                                        <fieldset style="position: absolute;left:0px">
+                                            <div class="container">
+                                                <div  class="row" style="margin-left: 10px;">
+                                                    <div  class="col-5">
+                                                        <div  class="row">
+                                                            <div  class="col-12">
+                                                                <p  style="color: darkgray;font-size: 16px;font-weight: 500;text-align: left;">Name:</p>
+                                                            </div>
+                                                        </div>
+                                                        <div  class="row" style="margin-top: -15px;">
+                                                            <div  class="col-12">
+                                                                <span style="color: grey;position: absolute;left: 25px;top: 7px;"><i class="fas fa-user"></i></span>
+                                                                <input  type="text" placeholder="Enter Traveler name"
+                                                                        :value="item.traveler_name"
+                                                                        @input="updateTraveler_name" name="name"  style="padding-left:30px;border: 1px solid gainsboro;border-radius: 5px;width: 315px;margin-top: 5px;"><img src="./../dashboard_resources/edit.png" style="height: 25px;position: absolute;left: 300px;top: 7px;">
+                                                            </div>
+                                                        </div>
+                                                        <div  class="row mt-3">
+                                                            <div  class="col-12">
+                                                                <p  style="color: darkgray;font-size: 16px;font-weight: 500;text-align: left;">E-mail ID:</p>
+                                                            </div>
+                                                        </div>
+                                                        <div  class="row" style="margin-top: -15px;">
+                                                            <div  class="col-12">
+                                                                <img src="./../dashboard_resources/email.png" style="width: 25px;height: 25px;position: absolute;left: 20px;top: 7px;">
+                                                                <input  type="text" name="name"  :value="item.email"
+                                                                        @input="updateEmail" placeholder="adb@gmail.com" style="padding-left:30px;border: 1px solid gainsboro;border-radius: 5px;width: 315px;margin-top: 5px;"><img src="./../dashboard_resources/edit.png" style="width: 25px;height: 25px;position: absolute;left: 300px;top: 7px;">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div  class="col-2"></div>
+                                                    <div  class="col-5" style="position: absolute;left: 444px;">
+                                                        <div  class="row">
+                                                            <div  class="col-12">
+                                                                <p  style="color: darkgray;font-size: 16px;font-weight: 500;text-align: left;">Mobile</p>
+                                                            </div>
+                                                        </div>
+                                                        <div  class="row" style="margin-top: -15px;">
+                                                            <div  class="col-12">
+                                                                <img src="./../dashboard_resources/contact.png" style="width: 25px;height: 25px;position: absolute;left: 20px;top: 7px;">
+                                                                <input placeholder="888888888"   :value="item.phone"
+                                                                       @input="updatePhone" type="text" name="name" style="padding-left:30px;border: 1px solid gainsboro;border-radius: 5px;width: 315px;margin-top: 5px;"><img src="./../dashboard_resources/edit.png" style="width: 25px;height: 25px;position: absolute;left: 300px;top: 7px;">
+                                                            </div>
+                                                        </div>
+                                                        <div  class="row mt-3">
+                                                            <div  class="col-12">
+                                                                <p  style="color: darkgray;font-size: 16px;font-weight: 500;text-align: left;">Query Source</p>
+                                                            </div>
+                                                        </div>
+                                                        <div  class="row" style="margin-top: -15px;">
+                                                            <div  class="col-12">
+                                                                <img src="./../dashboard_resources/Querysource.png" style="width: 25px;height: 25px;position: absolute;left: 20px;top: 7px;"> <input  type="text" name="name" placeholder="Social Media" style="padding-left:30px;border: 1px solid gainsboro;border-radius: 5px;width: 315px;margin-top: 5px;"><img src="./../dashboard_resources/dropdown_gray.png" style="width: 15px;height: 10px;position: absolute;left: 305px;top: 15px;">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                <!--                            <input type="button" name="previous" class="previous action-button" value="Previous" style="margin-left: 140px"/>-->
+<!--                                            <input @click="submitForm" name="submit" class="submit action-button" value="Save & Exit" />-->
+<!--                                            <input type="button" @click="changemenu('createfull')"  name="continue" class="submit action-button" value="Continue" />-->
+                                        </fieldset>
+                                    </tab-content>
+
+
+                <template slot="footer" slot-scope="props">
+                    <div class="wizard-footer-left">
+                        <wizard-button v-if="props.activeTabIndex > 0 && !props.isLastStep" @click.native="props.prevTab()" :style="props.fillButtonStyle">Previous</wizard-button>
+                    </div>
+                    <div class="wizard-footer-right">
+                        <wizard-button v-if="!props.isLastStep" @click.native="props.nextTab()" class="wizard-footer-right" :style="props.fillButtonStyle">Next</wizard-button>
+
+                        <wizard-button v-if="props.isLastStep" @click.native="submitForm" class="wizard-footer-right finish-button" :style="props.fillButtonStyle">{{props.isLastStep ? 'Save & Exit' : 'Next'}}</wizard-button>
+                        <wizard-button v-if="props.isLastStep" @click.native="changemenu('createfull')" class="wizard-footer-right finish-button" :style="props.fillButtonStyle">{{props.isLastStep ? 'Continue' : 'Next'}}</wizard-button>
+
+                    </div>
+                </template>
+
+                                </form-wizard>
+
+
+
+            </div>
+        </div>
+
+        <section class="content" :class="[createfull ? 'activedev' : 'hidedev' ]" style="margin-top: -500px">
+            <div class="row">
+                <div class="col-xs-12">
+
+
+                    <ul style="list-style: none;position: absolute;left:30px;color:black;top:-5px;font-size:20px;font-weight:normal;border-right:solid gainsboro 1px;padding-right: 25px">
+                        <a href="#"> <li :class="[summ ? 'bg-primary' : '' ]" @click="changeview('summ')" style="padding: 0 0 0 10px"> Summary</li></a>
+                        <a href="#"><li :class="[hotel ? 'bg-primary' : '' ]" class="mb-4 mt-4" @click="changeview('hotel')" style="padding: 0 0 0 10px">Hotels</li></a>
+                        <a href="#"> <li :class="[day ? 'bg-primary' : '' ]" @click="changeview('day')" style="padding: 0 0 0 10px">Day Plan</li></a>
+                        <a href="#"><li :class="[trav ? 'bg-primary' : '' ]" class="mb-4 mt-4" @click="changeview('trav')" style="padding: 0 0 0 10px">Traveller</li></a>
+                        <a href="#"><li :class="[train ? 'bg-primary' : '' ]" @click="changeview('train')" style="padding: 0 0 0 10px">Train/Flight</li></a>
+                        <a href="#"><li :class="[mail ? 'bg-primary' : '' ]" class="mb-4 mt-4" @click="changeview('mail')" style="padding: 0 0 0 10px">Mail Format</li></a>
+                        <a href="#"><li :class="[cost ? 'bg-primary' : '' ]" @click="changeview('cost')" style="padding: 0 0 0 10px">Cost</li></a>
+                    </ul>
+
+                    <div :class="[summ ? 'activedev' : 'hidedev' ]" style="position: absolute;left:230px;top:-55px;font-size:20px;width: 100%;height: 100%;">
+                        <div class="container mt-5 mb-5">
+                            <div class="row">
+                                <!--            First section-->
+                                <div class="col-lg-6">
+                                    <div class="row">
+                                        <div class="col-12" style="margin-bottom: -10px"><p style="color:grey;">Cost Amount</p></div>
+                                    </div>
+
+
+                                    <div class="row" v-for="(cost,index) in item.tour_cost">
+                                        <div class="col-3"><input type="number" style="padding-left:20px;color:grey;width: 100%;border:0;border: solid gainsboro 1px" v-model="cost.cost"></div>
+                                        <div class="col-4" style="margin-left: -20px"><input type="text" style="padding-left:20px;color:grey;width: 100%;border:0;border: solid gainsboro 1px" v-model="cost.type"></div>
+                                        <img  @click="item.tour_cost.splice(index, 1) " src="./../dashboard_resources/minus.png" style="width: 27px;height: 27px;margin-top:3px;margin-left: -14px">
+                                        <img @click="item.tour_cost.push({'cost':'','type':''})" src="./../dashboard_resources/plus.png" style="width: 27px;height: 27px;margin-top:3px;border:0;margin-left: -1px">
+                                    </div>
+
+
+                                    <div class="row mt-4">
+                                        <div class="col-12" style="margin-bottom: -10px"><p style="color:grey;">Tour Date<i style="margin-left: 5px" class="fas fa-calendar-alt"></i></p></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-8">
+                                            <date-picker
+                                                    :value="item.driver_pickup_date_time"
+                                                    :config="$root.dpconfigDatetime"
+                                                    name="driver_pickup_date_time"
+
+                                                    @dp-change="updateDriver_pickup_date_time"
+                                            >
+                                            </date-picker>
+                                        </div>
+                                    </div>
+
+
+                                    <draggable v-model="item.tour_location" group="people" @start="drag=true" @end="drag=false">
+
+                                        <div v-for="(tour,index) in item.tour_location ">
+                                            <div class="row mt-4">
+                                                <div class="col-12" style="margin-bottom: -10px"><p style="color:grey;">Location {{index+1}} <img src="./../dashboard_resources/loction.png" style="width: 25px;height: 25px;margin-left: 5px;"></p></div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-12  "><input disabled type="text" style="background-color: white;border:0;border:solid gainsboro 1px;width: 48%;color:grey;padding-left: 20px" v-model="tour.name">
+                                                    <input type="text" style="border:0;border:solid gainsboro 1px;width:7%;padding-left: 10px;color:grey" v-model="tour.days">
+                                                    <img @click="removeloc(tour.id)" src="./../dashboard_resources/minus.png" style="width: 27px;height: 27px;margin-top:0px;margin-left: 1px">
+                                                </div>
+
+
+
+                                            </div>
+
+                                        </div>
+
+                                    </draggable>
+                                    <br>
+                                    Create Own Tour  <label class="switch">
+                                    <input type="checkbox" v-model="checked">
+                                    <span class="slider round"></span>
+                                </label>
+                                    Select Tour
+                                    <div :class="[checked ? 'hidedev' : 'activedev' ]">
+                                        <div class="row mt-4">
+                                            <div class="col-12" style="margin-bottom: -10px"><p style="color:grey;">Add Location<i style="margin-left: 5px" class="fas fa-calendar-alt"></i></p></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-8">
+                                                <v-select placeholder="Select"
+                                                          name="addlocations"
+                                                          label="title"
+                                                          @input="inmodalL"
+
+                                                          :options="cityAll"
+
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div :class="[checked ? 'activedev' : 'hidedev' ]">
+                                        <div class="row mt-4">
+                                            <div class="col-12" style="margin-bottom: -10px"><p style="color:grey;">Select Tour<i style="margin-left: 5px" class="fas fa-calendar-alt"></i></p></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-8">
+                                                <v-select placeholder="Select"
+                                                          name="addtours"
+                                                          label="title"
+                                                          @input="inmodal"
+                                                          :value="item.tour"
+                                                          :options="tourAll"
+
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-3">
+                                        <div class="col-12" style="margin-bottom: -10px"><p style="color:grey;">Duration</p></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="ml-3" style="width:167px;border: solid gainsboro 1px;border-radius:3px;background-color: white"><input disabled type="text" style="background-color: white;color:grey;padding-left:15px;width: 70%;border:0;border-right: solid gainsboro 1px;margin-top: 3px;margin-bottom: 3px" value="Nights"><input disabled type="text" style="background-color: white;padding-left: 15px;color:grey;width: 25%;border:0" :value="days_count"> </div>
+                                        <div class="ml-3" style="width:167px;border: solid gainsboro 1px;border-radius:3px;background-color: white"><input disabled type="text" style="background-color: white;color:grey;padding-left:15px;width: 70%;border:0;border-right: solid gainsboro 1px;margin-top: 3px;margin-bottom: 3px" value="Day"><input disabled type="text" style="background-color: white;padding-left: 15px;color:grey;width: 25%;border:0" :value="days_count+1"> </div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col-12" style="margin-bottom: -10px"><p style="color:grey;">Travelers</p></div>
+                                    </div>
+                                    <div class="row" style="margin-left: 0px">
+                                        <div class="col-5" style="margin-top: 3px;margin-bottom: 3px;background-color: white;">
+                                            <div class="row pt-2 pb-2" style="background-color: white;">
+                                                <div class="col-lg-4">
+                                                    <div class="row" style="margin-left: -26px;">
+                                                        <div class="col-10 text-center" style="margin-left: -5px;">
+                                                            <p style="font-size: 10px; color: black; font-weight: bold;">Adults</p>
+                                                        </div>
+                                                        <div class="col-10">
+                                                            <p style="font-size: 8px; color: darkgray; margin-top: -15px;">(12+ yrs)</p>
+                                                        </div>
+                                                        <div class="col-10" style="margin-top: -15px;padding-right: 11px;">
+                                                            <input min="1" type="number" style="font-size: 16px; color: grey; width: 46px; border: 1px solid gainsboro; padding: 0px 0px 0px 4px;" :value="item.no_of_adults" @input="updateNo_of_adults">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+
+
+
+
+
+                                                <div class="col-lg-3" style="margin-left: -2px;">
+                                                    <div class="row" style="margin-left: -40px;">
+                                                        <div class="col-10 text-center" >
+                                                            <p style="font-size: 10px; color: black; font-weight: bold;">Children</p>
+                                                        </div>
+                                                        <div class="col-10">
+                                                            <p style="font-size: 8px; color: darkgray; margin-top: -15px;">(2-12 yrs)</p>
+                                                        </div>
+                                                        <div class="col-10" style="margin-top: -15px;">
+                                                            <input min="0" type="number" style="font-size: 16px; color: grey; width: 46px; border: 1px solid gainsboro; padding: 0px 0px 0px 4px;" :value="item.no_of_children" @input="updateNo_of_children">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3">
+                                                    <div class="row" style="margin-left: -38px;">
+                                                        <div class="col-12 text-center" style="margin-left: -10px;">
+                                                            <p style="font-size: 10px; color: black; font-weight: bold;">Infant</p>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <p style="font-size: 8px; color: darkgray; margin-top: -15px;">(below 2yrs)</p>
+                                                        </div>
+                                                        <div class="col-12" style="margin-top: -15px;">
+                                                            <input min="0" type="number" style="font-size: 16px; color: grey; width: 46px; border: 1px solid gainsboro; padding: 0px 0px 0px 4px;" :value="meta.meta_infant" @input="updatemeta_infant">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pl-2" style="margin-left: -52px;margin-top: 3px;width: 164px;z-index: 1;margin-bottom: 3px;background-color: white;border-left: 1px solid gainsboro;">
+                                            <div class="row">
+                                                <div class="col-lg-5" style="margin-left: 5px;">
+                                                    <div class="row" >
+                                                        <div class="col-12 text-center">
+                                                            <p style="font-size: 10px;color: black;font-weight: bold;margin-left: -16px;">Rooms</p>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <p style="font-size: 8px;margin-top: -15px;color:darkgray">(12+ yrs)</p>
+                                                        </div>
+                                                        <div class="col-12" style="margin-top: -15px;">
+                                                            <input min="1" type="number" style="font-size: 16px; color: grey; width: 46px; border: 1px solid gainsboro; padding: 0px 0px 0px 4px;" :value="item.total_room" @input="updateTotal_room">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-5" style="margin-left: 20px;">
+                                                    <div class="row" style="margin-left: -50px;">
+                                                        <div class="col-12 text-center">
+                                                            <p  style="font-size: 10px;color: black;font-weight: bold;margin-left: -40px">Extra Beds</p>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <p style="font-size: 8px;color:darkgrey;margin-top: -15px">(2-12 yrs)</p>
+                                                        </div>
+                                                        <div class="col-12" style="margin-top: -15px">
+
+                                                            <input min="0" type="number" style="font-size: 16px; color: grey; width: 46px; border: 1px solid gainsboro; padding: 0px 0px 0px 4px;" v-model="meta_extra_bed">
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <!--            second section-->
+                                <div class="col-lg-6" style="border-left: solid white 2px;margin-left: -180px">
+                                    <div class="row">
+                                        <div class="col-12" style="margin-bottom: -10px"><p style="color:grey;">Budget</p></div>
+                                        <div class="col-12"><input type="text" style="padding-left:20px;color:grey;width: 70%;border:0;border: solid gainsboro 1px" :value="item.budget"  @input="updateBudget"></div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col-12" style="margin-bottom: -10px"><p style="color:grey;">Executive Name<span style="margin-left: 5px"><i class="fa fa-user"></i></span></p></div>
+                                        <div class="col-12"><input type="text" style="padding-left:20px;color:grey;width: 70%;border:0;border: solid gainsboro 1px" value="Delhi"><img src="./../dashboard_resources/edit.png" style="width: 25px;height: 25px;margin-left: -30px;margin-top: 3px"></div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col-12" style="margin-bottom: -10px"><p style="color:grey;">Executive Mobile Number<span style="margin-left: 2px;"><img src="./../dashboard_resources/contact.png" height="25px" style="margin-top: 5px"></span></p></div>
+                                        <div class="col-12"><input type="text" style="padding-left:20px;color:grey;width: 70%;border:0;border: solid gainsboro 1px" value="8888888888"><img src="./../dashboard_resources/edit.png" style="width: 25px;height: 25px;margin-left: -30px;margin-top: 3px"></div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col-12" style="margin-bottom: -10px"><p style="color:grey;">Transport Type<span style="margin-left: 2px;"><img src="./../dashboard_resources/transport.png" height="25px" style="margin-top: 5px"></span></p></div>
+                                        <div class="col-12"><input type="select" style="padding-left:20px;color:grey;width: 70%;border:0;border: solid gainsboro 1px" value="8888888888"><img src="./../dashboard_resources/dropdown_gray.png" style="width: 15px;height: 10px;margin-left: -30px;margin-top: 3px"></div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col-12" style="margin-bottom: -10px"><p style="color:grey;">Pickup Location<span style="margin-left: 1px"><img src="./../dashboard_resources/location.png" height="20px" style="margin-top: -5px"></span></p></div>
+                                        <div class="col-12"><input type="text"
+                                                                   class="form-control"
+                                                                   name="pickup_location"
+                                                                   placeholder="Enter Pickup location"
+                                                                   :value="item.pickup_location"
+                                                                   @input="updatePickup_location" style="font-size: 16px;padding-left:20px;color:grey;width: 70%;border:0;border: solid gainsboro 1px"><img src="./../dashboard_resources/edit.png" style="width: 25px;height: 25px; position:absolute;left:350px;top:5px"></div>
+                                    </div>
+                                    <button @click="changeview('hotel')" style="color:white;background-color:forestgreen;width: 100px;border-radius: 5px;border:0;margin-top: -10px;margin-left: 270px;position: fixed;z-index: 1;">Next</button>
+                                    <div class="row">
+                                        <div class="col-12" style="margin-bottom: -10px"><p style="color:grey;">Query Feel Rating:</p></div>
+                                        <div class="col-12"><div class="row" style="margin-left: 1px"><div class="bg-danger" style="width:75px;height: 20px"></div><div class=" bg-warning" style="width:75px;"></div><div class="bg-primary" style="width:75px;"></div><div class=" bg-success" style="width:75px;"></div><div class=" bg-dark" style="width:75px;"></div> </div></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12" style="margin-bottom: 15px;margin-top: 15px"><p style="color:grey;">Past Interactions</p></div>
+                                        <div style="width: 68%;height: 60px;background-color: white;margin-left: 15px;border:solid gainsboro 1px;border-radius: 5px;font-size:14px;margin-top:-25px">
+                                            <p style="border:solid gainsboro 1px;border-radius: 15px;color:red;margin-top:2px;margin-left: 5px;width: 200px;padding-left: 10px;padding-right: 10px"><span style="color:black;margin-left:-5px;margin-right: 5px"><i class="far fa-clock"></i></span>05 Sep 19,  02:15 pm</p>
+                                            <img @click="remarkk=remarkk?false:true" src="./../dashboard_resources/dropdown.png" style="margin-top: -70px;margin-left: 330px;height:20px" >
+                                            <p style="width: 320px;border-left:solid black 4px;margin-left: 13px; margin-top:-25px;padding-left: 5px">Lorem Ipsum is simply dummy text of the</p>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-12" style="margin-bottom: -15px;margin-top: 15px"><p style="color:grey;">Add Remark: </p></div>
+                                        <div class="col-12"><input type="text" style="width: 372px;height: 100px;border:0;border:solid gainsboro 1px;border-radius: 3px"></div>
+                                    </div>
+                                    <div :class="[remarkk ? 'activedev' : 'hidedev' ]" class="col-12" style="position: relative;">
+                                        <div style="background-color: white;position: absolute;width: 600px;height: 250px;border: solid gainsboro 1px;border-radius: 10px;left: -220px;top: -140px;font-size: 16px;">
+                                            <div style="width: 570px;color:forestgreen;margin-left: 20px;margin-top: 20px"><i class="far fa-clock" style="margin-right: 10px"></i>09-09-2019 / 12:15 pm<span style="margin-left: 290px">Completed</span>
+                                                <p style="text-align:justify-all;width: 580px;height: 40px;border-left:solid black 3px;margin-left: 6px;padding-left: 5px;font-size: 12px;color:black;margin-top: 5px ">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,</p>
+                                            </div>
+                                            <div style="width: 570px;color:red;margin-left: 20px;margin-top:-10px"><i class="far fa-clock" style="margin-right: 10px"></i>05-09-2019 / 02:15 pm <span style="margin-left: 205px">Due Date : 10-09-2019</span>
+                                                <p style="text-align:justify-all;width: 580px;height: 40px;border-left:solid black 3px;margin-left: 6px;padding-left: 5px;font-size: 12px;color:black;margin-top: 5px ">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,</p>
+                                            </div>
+                                            <div style="width: 570px;color:dodgerblue;margin-left: 20px;margin-top:-10px"><i class="far fa-clock" style="margin-right: 10px"></i>05-09-2019 / 02:15 pm <span style="margin-left: 295px">On Going</span>
+                                                <p style="text-align:justify-all;width: 580px;height: 40px;border-left:solid black 3px;margin-left: 6px;padding-left: 5px;font-size: 12px;color:black;margin-top: 5px ">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--                    Hoteln-->
+                    <div :class="[hotel ? 'activedev' : 'hidedev' ]" v-if="hotel" >
+
+                        <hotel-component :day="day"  :location="item.tour_location"  :hotels="hotels"  @addplace="addplace" :tour_location="item.tour_location" @showday="changeview('day')" @delete="remove"></hotel-component>
+
+                    </div>
+
+
+                    <!--                    Day Plan-->
+                    <div :class="[day ? 'activedev' : 'hidedev' ]" style="position: absolute;left:290px;top:-15px;font-size:20px;width: 1000px;height: 100%;">
+
+
+
+                                <dayplan-component :datestart="item.driver_pick_up_time"  :place="places.places_city_id"  :tour_location="item.tour_location" @addplace="addplace"  @delete="remove"></dayplan-component>
+
+
+
+
+                    </div>
+                    <!--                    travellers -->
+                    <div :class="[trav ? 'activedev' : 'hidedev' ]" class="container mt-5 mb-5" style="left:180px;position: absolute;top:-50px;">
+                        <button style="background-color: white;padding-left: 30px;padding-right: 30px;margin-left: 800px;border:0;border-radius: 15px;box-shadow: 4px 3px 7px 0px grey;font-size: 12px">Send Quotes<span><img src="./../dashboard_resources/dropdown11.png" style="height: 8px"></span></button>
+                        <div class="row" style="margin-top: 50px">
+                            <div class="col-6" style="margin-left: 50px ">
+                                <div class="col-lg-12"> <span style="color:grey;font-size:20px;margin-left: 10px">Traveller Name</span></div>
+                                <div class="col-lg-12" style="position: relative"><span style="position: absolute;left:20px;color:grey;font-size: 18px"><i class="fa fa-user" style="margin-left: 20px;margin-top: 10px"></i></span><input  :value="item.traveler_name" @input="updateTraveler_name" type="text" style="font-size:16px;border:0;width: 80%;padding-left: 40px;margin-left: 13px;height: 35px"><span style="position: absolute;left:395px;color:grey;"><img src="./../dashboard_resources/edit.png" style="height: 25px;margin-top: 5px"></span></div>
+                            </div>
+                            <div class="col-6"style="margin-left: -100px">
+                                <div class="col-lg-12"> <span style="color:grey;font-size:20px;margin-left: 10px">Traveller Mobile no</span></div>
+                                <div class="col-lg-12" style="position: relative"><span style="position: absolute;left:20px;color:grey"><img src="./../dashboard_resources/contact.png" style="margin-left: 10px"></span>
+                                    <input type="text" class="form-control" name="phone" placeholder="Enter Phone" :value="item.phone"    @input="updatePhone" style="border:0;width: 80%;padding-left: 40px;margin-left: 13px;height: 35px;font-size:16px"><span style="position: absolute;left: 395px;color:grey;top:0px;"><img src="./../dashboard_resources/edit.png" style="height: 25px;margin-top: 5px"></span></div>
+                            </div>
+                        </div>
+                        <div class="row mt-3" style="margin-left: 50px">
+                            <div class="col-lg-12"><span style="color:grey;font-size:20px;margin-left: 10px">Email ID(the email will not visible to supplier)</span></div>
+                            <div class="col-lg-12" style="position: relative"><span style="position:absolute;left:30px;top:5px"> <img src="./../dashboard_resources/email.png" style=";height: 25px"></span>
+                                <input type="email" class="form-control"  :value="item.email"    @input="updateEmail" style="margin-left: 11px ; width: 84%;border:0;height: 35px;padding-left: 40px;font-size: 16px" placeholder="asd@mail.com"></div>
+                        </div>
+                        <div class="row mt-3" style="margin-left: 50px">
+                            <div class="col-lg-12"><span style="color:grey;font-size:20px;margin-left: 10px">Email ID(Secondary)</span></div>
+                            <div class="col-lg-12" style="position: relative"><span style="position:absolute;left:30px;top:5px"> <img src="./../dashboard_resources/email.png" style=";height: 25px"></span>
+                                <input type="text" class="form-control"
+                                       name="email_second"
+                                       placeholder="Enter Email second"
+                                       :value="item.email_second"
+                                       @input="updateEmail_second" style="margin-left: 11px ; width: 84%;border:0;height: 35px;padding-left: 40px;font-size: 16px"></div>
+
+                        </div>
+                        <div style="position: relative"><button class="bg-success pl-5 pr-5" style="position: absolute;color: white;left:850px;top:170px;border:0;font-size: 20px;border-radius: 5px">Next</button></div>
+                    </div>
+                    <!--                    train/flight-->
+                    <div :class="[train ? 'activedev' : 'hidedev' ]" class="container mb-5 mt-3" style="left:230px;top:-50px;position:absolute;">
+                        <button style="background-color: white;padding-left: 30px;padding-right: 30px;margin-left: 700px;border:0;border-radius: 15px;box-shadow: 4px 3px 7px 0px grey;font-size: 12px ">Send Quotes<span><img src="./../dashboard_resources/dropdown11.png" style="height: 8px"></span></button>
+                        <div class="row mb-5" style="margin-top: 50px">
+                            <div class="col-12">
+                                <div class="card" style="border: 0px;width: 850px;font-size: 20px">
+                                    <div class="card-header" style="height: 40px;background-color: gainsboro;border:0"></div>
+                                    <div class="card-body" style="font-weight: bold;color:darkgrey">
+                                        <p>New Delhi</p>
+                                        <p>Indira Gandhi International Airport</p>
+                                        <p>Terminal 3</p>
+                                        <p>2hrs 10mins</p>
+                                        <p>07:45</p>
+                                        <p>Fri, 14 Nov 10</p>
+                                    </div>
+                                    <div class="card-footer"style="border:0;height: 40px;background-color: gainsboro"><p style="text-align: right;margin-top: -3px">Flight Price:<span style="font-weight: bold;padding-left: 5px">12,000 INR</span></p></div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-success pl-5 pr-5" style="margin-left: 755px;font-size: 16px;border-radius:5px">Next</button>
+                    </div>
+                    <!--                    mail format-->
+
+
+                    <div :class="[mail ? 'activedev' : 'hidedev' ]" class="container" style="left:190px;top:-50px;position:absolute;">
+                        <div class="row">
+                            <div class="col-10">
+                                <form id="msform" style="width: 100%">
+                                    <!-- progressbar -->
+                                    <ul id="progressbar">
+                                        <li class="active"><span style="font-size: 14px;font-weight: bold;color:black">Welcome Notes</span></li>
+                                        <li><span style="font-size: 14px;font-weight: bold;color:black">Tour Details</span></li>
+                                        <li><span style="font-size: 14px;font-weight: bold ;color:black"> Closer Notes</span></li>
+                                    </ul>
+
+                                    <!-- fieldsets -->
+
+                                    <fieldset style="margin-top: 50px">
+                                        <div><span style="position: relative"><button style="position: absolute;width: 200px;left: 230px;top:-40px;background-color: white;padding-left: 30px;padding-right: 30px;border:0;border-radius: 15px;box-shadow: 4px 3px 7px 0px grey;">Send Quotes<span><img src="./../dashboard_resources/dropdown11.png"></span></button></span></div>
+                                        <span style="font-size: 20px;margin-left: -420px">Welcome/Registration Mail</span><span style="color:royalblue;position:relative"><p style="position: absolute;left: 230px;top:-5px;width: 200px;font-size:15px;margin-top:5px">(Character Limit 244)</p></span>
+                                        <div class="card mt-1">
+                                            <div class="card-header" style="border: 0;background-color: gainsboro">Header</div>
+                                            <div class="card-body" style="border: 0;color:grey;text-align: justify">Thank you for choosing us. Over the years, we have helped people create beautiful travel memories, just like we hope to do for you. After reviewing your preferences and the available options, we are proposing the below package which we believe best matches your requirements. </div>
+
+                                        </div>
+                                        <input type="button" name="next" class="next action-button" value="Next" style="margin-top: 130px;"/>
+                                    </fieldset>
+                                    <fieldset style="margin-top: 50px">
+                                        <div><span style="position: relative"><button style="position: absolute;width: 200px;left: 130px;top:-40px;background-color: white;padding-left: 30px;padding-right: 30px;border:0;border-radius: 15px;box-shadow: 4px 3px 7px 0px grey;">Send Quotes<span><img src="./../dashboard_resources/dropdown11.png"></span></button></span></div>
+                                        <span style="font-size: 20px;margin-left: -320px">Tour details inclusions, exclusions notes and other T&C :
+</span><span style="color:royalblue;position:relative"><p style="position: absolute;left: 230px;top:0px;width: 200px;font-size:15px;">(Character Limit 244)</p></span>
+                                        <div class="card mt-1">
+                                            <div class="card-header" style="border: 0;background-color: gainsboro">Header</div>
+                                            <div class="card-body" style="border: 0;color:grey;text-align: justify">Thank you for choosing us. Over the years, we have helped people create beautiful travel memories, just like we hope to do for you. After reviewing your preferences and the available options, we are proposing the below package which we believe best matches your requirements. </div>
+
+                                        </div>
+                                        <input type="button" name="previous" class="previous action-button" value="Previous" style="margin-top: 130px;"/>
+                                        <input type="button" name="next" class="next action-button" value="Next" style="margin-top: 130px;"/>
+                                    </fieldset>
+                                    <fieldset style="margin-top: 50px">
+                                        <div><span style="position: relative"><button style="position: absolute;width: 200px;left: 130px;top:-40px;background-color: white;padding-left: 30px;padding-right: 30px;border:0;border-radius: 15px;box-shadow: 4px 3px 7px 0px grey;">Send Quotes<span><img src="./../dashboard_resources/dropdown11.png"></span></button></span></div>
+                                        <span style="font-size: 20px;margin-left: -540px">Closure Notes:</span><span style="color:royalblue;position:relative">
+                                        <p style="position: absolute;left: 375px;top:0px;width: 200px;font-size:15px">(Character Limit 244)</p></span>
+                                        <div class="card mt-1">
+                                            <div class="card-header" style="border: 0;background-color: gainsboro">Header</div>
+                                            <div class="card-body" style="border: 0;color:grey;text-align: justify">Thank you for choosing us. Over the years, we have helped people create beautiful travel memories, just like we hope to do for you. After reviewing your preferences and the available options, we are proposing the below package which we believe best matches your requirements. </div>
+
+                                        </div>
+                                        <input type="button" name="previous" class="previous action-button" value="Previous" style="margin-top: 130px"/>
+                                        <input type="button" value="Next" style="margin-top: 130px; width: 100px;background: #27AE60;font-weight: bold;color: white;border: 0 none;border-radius: 5px;cursor: pointer;padding: 10px 5px;margin: 10px 5px;">
+                                        <input type="button"  class="btn-light" value="Short Quote" style="position: absolute;left: 30px;top:225px;width: 200px;border:0;border:solid gainsboro 1px;border-radius:15px;height: 30px;padding-left: 40px;"/><span style="color:black;position: absolute;left:80px;top:228px;"><i class="fas fa-envelope"></i></span>
+
+                                        <input class="btn-primary" value="Detailed Quote" style="text-align:center;position: absolute;top:225px;left:320px;border:solid gainsboro 1px;border-radius: 20px;width:200px;height: 30px "><span style="color: white;position: absolute;top:228px;left:340px "><i class="fas fa-envelope pr-2"></i></span>
+                                        <input type="button" onclick="popupfunction()" class="btn-success" value="Send Via Whatsapp" style="position: absolute;top:225px;left:600px;border:solid gainsboro 1px;border-radius: 20px;text-align:center;width:220px;height: 30px"><span style="color: white;position: absolute;top:228px;left:620px"><i class="fab fa-whatsapp"></i></span>
+                                    </fieldset>
+                                </form>
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <!--                    cost-->
+                    <div  :class="[cost ? 'activedev' : 'hidedev' ]" class="container" style="left:190px;top:-50px;position:absolute;">
+                        <button style="background-color: white;padding-left: 30px;padding-right: 30px;margin-left: 830px;border:0;border-radius: 15px;box-shadow: 4px 3px 7px 0px grey;font-size: 12px ">Send Quotes<span style="margin-left: 5px;"><img src="./../dashboard_resources/dropdown11.png" style="height: 8px"></span></button>
+                        <div class="row" style="margin-top: 0px">
+                            <div class="col-6" style="margin-left:120px;">
+                                <div class="row">
+                                    <div class="col-12" style="margin-bottom: -10px;margin-top: 15px;font-size: 20px;"><p style="color:grey;">Hotel 1 </p></div>
+                                    <div class="col-12"><input type="text" style="border:0;border:solid gainsboro 1px;border-radius: 3px;width:70%;height:30px;"></div>
+                                </div>
+                            </div>
+                            <div class="col-2" style="position:absolute;left: 520px">
+                                <div class="row">
+                                    <div class="col-12" style="margin-bottom: -10px;margin-top: 15px;font-size: 20px;"><p style="color:grey;">Price</p></div>
+                                    <div class="col-12"><input type="text" style="border:0;border:solid gainsboro 1px;border-radius: 3px;width:90%;height:30px;"></div>
+                                </div>
+                            </div>
+                            <div class="col-1" style="position: absolute;left: 685px">
+                                <div class="row">
+                                    <div class="col-12" style="margin-bottom: -10px;margin-top: 15px;font-size: 20px;"><p style="color:grey;">Qty. </p></div>
+                                    <div class="col-12"><input type="text" style="border:0;border:solid gainsboro 1px;border-radius: 3px;width:100%;height:30px;"></div>
+                                </div>
+                            </div>
+                            <div class="col-2" style="position:absolute;left: 775px">
+                                <div class="row">
+                                    <div class="col-12" style="margin-bottom: -10px;margin-top: 15px;font-size: 20px;"><p style="color:grey;">Total</p></div>
+                                    <div class="col-12"><input type="text" style="border:0;border:solid gainsboro 1px;border-radius: 3px;width:90%;height:30px;"></div>
+                                </div>
+                            </div>
+                            <div class="col-1" style="position: absolute;left:970px;top:60px;">
+                                <div class="row">
+                                    <button style="background-color: white;border-radius: 2px;border:solid 1px;border-color: #F1F1F1" size="10px"><span style="font-weight: 2px;font-size: 20px;text-align:center">+</span></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 0px">
+                            <div class="col-6" style="margin-left:120px;">
+                                <div class="row">
+                                    <div class="col-12" style="margin-bottom: -10px;margin-top: 15px;font-size: 20px;"><p style="color:grey;">Hotel 2 </p></div>
+                                    <div class="col-12"><input type="text" style="border:0;border:solid gainsboro 1px;border-radius: 3px;width:70%;height:30px;"></div>
+                                </div>
+                            </div>
+                            <div class="col-2" style="position:absolute;left: 520px;top:140px">
+                                <div class="row">
+
+                                    <div class="col-12"><input type="text" style="border:0;border:solid gainsboro 1px;border-radius: 3px;width:90%;height:30px;"></div>
+                                </div>
+                            </div>
+                            <div class="col-1" style="position: absolute;left: 685px;top:140px">
+                                <div class="row">
+
+                                    <div class="col-12"><input type="text" style="border:0;border:solid gainsboro 1px;border-radius: 3px;width:100%;height:30px;"></div>
+                                </div>
+                            </div>
+                            <div class="col-2" style="position:absolute;left: 775px;top:140px">
+                                <div class="row">
+
+                                    <div class="col-12"><input type="text" style="border:0;border:solid gainsboro 1px;border-radius: 3px;width:90%;height:30px;"></div>
+                                </div>
+                            </div>
+                            <div class="col-1" style="position: absolute;left:970px;top:135px">
+                                <div class="row">
+                                    <button style="background-color: white;border-radius: 2px;border:solid 1px;border-color: #F1F1F1" size="10px"><span style="font-weight: 2px;font-size: 20px;text-align:center">+</span></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 0px">
+                            <div class="col-6" style="margin-left:120px;">
+                                <div class="row">
+                                    <div class="col-12" style="margin-bottom: -10px;margin-top: 15px;font-size: 20px;"><p style="color:grey;">Transport </p></div>
+                                    <div class="col-12"><input type="text" style="border:0;border:solid gainsboro 1px;border-radius: 3px;width:70%;height:30px;"></div>
+                                </div>
+                            </div>
+                            <div class="col-2" style="position:absolute;left: 520px;top:215px">
+                                <div class="row">
+
+                                    <div class="col-12"><input type="text" style="border:0;border:solid gainsboro 1px;border-radius: 3px;width:90%;height:30px;"></div>
+                                </div>
+                            </div>
+                            <div class="col-1" style="position: absolute;left: 685px;top:215px">
+                                <div class="row">
+                                    <div class="col-12"><input type="text" style="border:0;border:solid gainsboro 1px;border-radius: 3px;width:100%;height:30px;"></div>
+                                </div>
+                            </div>
+                            <div class="col-2" style="position:absolute;left: 775px;top:215px">
+                                <div class="row">
+
+                                    <div class="col-12"><input type="text" style="border:0;border:solid gainsboro 1px;border-radius: 3px;width:90%;height:30px;"></div>
+                                </div>
+                            </div>
+                            <div class="col-1" style="position: absolute;left:970px;top:210px">
+                                <div class="row">
+                                    <button style="background-color: white;border-radius: 2px;border:solid 1px;border-color: #F1F1F1" size="10px"><span style="font-weight: 2px;font-size: 20px;text-align:center">+</span></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 0px">
+                            <div class="col-2" style="position:absolute;left: 775px;top:240px">
+                                <div class="row">
+                                    <div class="col-12" style="margin-bottom: -10px;margin-top: 15px;font-size: 20px;"><p style="color:grey;">Total</p></div>
+                                    <div class="col-12"><input type="text" style="border:0;border:solid gainsboro 1px;border-radius: 3px;width:90%;height:30px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 0px">
+                            <div class="col-2" style="position:absolute;left: 590px;top:310px">
+                                <div class="row">
+                                    <div class="col-12" style="margin-bottom: -10px;margin-top: 15px;font-size: 20px;"><p style="color:grey;">Markup</p></div>
+                                    <div class="col-12"><input type="text" style="border:0;border:solid gainsboro 1px;border-radius: 3px;width:90%;height:30px;"></div>
+                                </div>
+                            </div>
+                            <div class="col-2" style="position:absolute;left: 775px;top:310px">
+                                <div class="row">
+                                    <div class="col-12" style="margin-bottom: -10px;margin-top: 15px;font-size: 20px;"><p style="color:grey;">Selling Price</p></div>
+                                    <div class="col-12"><input type="text" style="border:0;border:solid gainsboro 1px;border-radius: 3px;width:90%;height:30px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 0px">
+                            <div class="col-6" style="position: absolute;top:390px;left:120px;">
+                                <div class="row">
+                                    <div class="col-12" style="margin-bottom: -10px;margin-top: 15px;font-size: 20px;"><p style="color:grey;">Flight 1 </p></div>
+                                    <div class="col-12"><input type="text" style="border:0;border:solid gainsboro 1px;border-radius: 3px;width:70%;height:30px;"></div>
+                                </div>
+                            </div>
+                            <div class="col-2" style="position:absolute;left: 520px;top:390px;">
+                                <div class="row">
+                                    <div class="col-12" style="margin-bottom: -10px;margin-top: 15px;font-size: 20px;"><p style="color:grey;">Price</p></div>
+                                    <div class="col-12"><input type="text" style="border:0;border:solid gainsboro 1px;border-radius: 3px;width:90%;height:30px;"></div>
+                                </div>
+                            </div>
+                            <div class="col-1" style="position: absolute;left: 685px;top:390px;">
+                                <div class="row">
+                                    <div class="col-12" style="margin-bottom: -10px;margin-top: 15px;font-size: 20px;"><p style="color:grey;">Qty. </p></div>
+                                    <div class="col-12"><input type="text" style="border:0;border:solid gainsboro 1px;border-radius: 3px;width:100%;height:30px;"></div>
+                                </div>
+                            </div>
+                            <div class="col-2" style="position:absolute;left: 775px;top:390px;">
+                                <div class="row">
+                                    <div class="col-12" style="margin-bottom: -10px;margin-top: 15px;font-size: 20px;"><p style="color:grey;">Total</p></div>
+                                    <div class="col-12"><input type="text" style="border:0;border:solid gainsboro 1px;border-radius: 3px;width:90%;height:30px;"></div>
+                                </div>
+                            </div>
+                            <div class="col-1" style="position: absolute;left:970px;top:425px;margin-top: 6px">
+                                <div class="row">
+                                    <button style="background-color: white;border-radius: 2px;border:solid 1px;border-color: #F1F1F1" size="10px"><span style="font-weight: 2px;font-size: 20px;text-align:center">+</span></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 0px">
+                            <div class="col-2" style="position:absolute;left: 775px;top:460px">
+                                <div class="row">
+                                    <div class="col-12" style="margin-bottom: -10px;margin-top: 15px;font-size: 20px;"><p style="color:grey;">Total</p></div>
+                                    <div class="col-12"><input type="text" style="border:0;border:solid gainsboro 1px;border-radius: 3px;width:90%;height:30px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 0px;">
+                            <div class="col-2" style="position:absolute;left: 590px;top:530px">
+                                <div class="row">
+                                    <div class="col-12" style="margin-bottom: -10px;margin-top: 15px;font-size: 20px;"><p style="color:grey;">Markup</p></div>
+                                    <div class="col-12"><input type="text" style="border:0;border:solid gainsboro 1px;border-radius: 3px;width:90%;height:30px;"></div>
+                                </div>
+                            </div>
+                            <div class="col-2" style="position:absolute;left: 775px;top:530px">
+                                <div class="row">
+                                    <div class="col-12" style="margin-bottom: -10px;margin-top: 15px;font-size: 20px;"><p style="color:grey;">Selling Price</p></div>
+                                    <div class="col-12"><input type="text" style="border:0;border:solid gainsboro 1px;border-radius: 3px;width:90%;height:30px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <form @submit.prevent="submitForm" novalidate style="margin-top:900px">
+                        <div class="box" style="display: none">
+
+                            <div class="box-header with-border" >
+                                <h3 class="box-title">Create</h3>
+                            </div>
+
+                            <div class="box-body">
+                                <back-buttton></back-buttton>
+                            </div>
+
+                            <bootstrap-alert />
+
+                            <div class="box-body">
+                                <div class="form-group">
+                                    <label for="driver_pickup_date_time">Driver pickup date time *</label>
+                                    <date-picker
+                                            :value="item.driver_pickup_date_time"
+                                            :config="$root.dpconfigDatetime"
+                                            name="driver_pickup_date_time"
+                                            placeholder="Enter Driver pickup date time *"
+                                            @dp-change="updateDriver_pickup_date_time"
+                                    >
+                                    </date-picker>
+                                </div>
+                                <div class="form-group">
+                                    <label for="booking_id">Booking id *</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            name="booking_id"
+                                            placeholder="Enter Booking id *"
+                                            :value="item.booking_id"
+                                            @input="updateBooking_id"
+                                    >
+                                </div>
+                                <div class="form-group">
+                                    <label for="budget">Budget *</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            name="budget"
+                                            placeholder="Enter Budget *"
+                                            :value="item.budget"
+                                            @input="updateBudget"
+                                    >
+                                </div>
+                                <div class="form-group">
+                                    <label for="traveler_name">Traveler name</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            name="traveler_name"
+                                            placeholder="Enter Traveler name"
+                                            :value="item.traveler_name"
+                                            @input="updateTraveler_name"
+                                    >
+                                </div>
+                                <div class="form-group">
+                                    <label for="bill_pay">Bill pay</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            name="bill_pay"
+                                            placeholder="Enter Bill pay"
+                                            :value="item.bill_pay"
+                                            @input="updateBill_pay"
+                                    >
+                                </div>
+                                <div class="form-group">
+                                    <label for="no_of_adults">No of adults</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            name="no_of_adults"
+                                            placeholder="Enter No of adults"
+                                            :value="item.no_of_adults"
+                                            @input="updateNo_of_adults"
+                                    >
+                                </div>
+                                <div class="form-group">
+                                    <label for="no_of_children">No of children</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            name="no_of_children"
+                                            placeholder="Enter No of children"
+                                            :value="item.no_of_children"
+                                            @input="updateNo_of_children"
+                                    >
+                                </div>
+                                <div class="form-group">
+                                    <label for="no_of_infant">No of infant</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            name="no_of_infant"
+                                            placeholder="Enter No of infant"
+                                            :value="meta.meta_infant"
+                                            @input="updatemeta_infant"
+                                    >
+                                </div>
+
+
+
+                                <div class="form-group">
+                                    <label for="note">Note</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            name="note"
+                                            placeholder="Enter Note"
+                                            :value="item.note"
+                                            @input="updateNote"
+                                    >
+                                </div>
+                                <div class="form-group">
+                                    <label for="status">Status</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            name="status"
+                                            placeholder="Enter Status"
+                                            :value="item.status"
+                                            @input="updateStatus"
+                                    >
+                                </div>
+                                <div class="form-group">
+                                    <label for="phone">Phone</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            name="phone"
+                                            placeholder="Enter Phone"
+                                            :value="item.phone"
+                                            @input="updatePhone"
+                                    >
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Email</label>
+                                    <input
+                                            type="email"
+                                            class="form-control"
+                                            name="email"
+                                            placeholder="Enter Email"
+                                            :value="item.email"
+                                            @input="updateEmail"
+                                    >
+                                </div>
+                                <div class="form-group">
+                                    <label for="email_second">Email second</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            name="email_second"
+                                            placeholder="Enter Email second"
+                                            :value="item.email_second"
+                                            @input="updateEmail_second"
+                                    >
+                                </div>
+                                <div class="form-group">
+                                    <label for="traveller_id">Traveller id</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            name="traveller_id"
+                                            placeholder="Enter Traveller id"
+                                            :value="item.traveller_id"
+                                            @input="updateTraveller_id"
+                                    >
+                                </div>
+                                <div class="form-group">
+                                    <label for="generated_itinerary">Generated itinerary</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            name="generated_itinerary"
+                                            placeholder="Enter Generated itinerary"
+                                            :value="item.generated_itinerary"
+                                            @input="updateGenerated_itinerary"
+                                    >
+                                </div>
+                                <div class="form-group">
+                                    <ul id="sortable">
+                                        <draggable v-model="item.tour_location" group="people" @start="drag=true" @end="drag=false">
+                                            <location-place-component v-for="(location,index ) in item.tour_location"  :key="location.id" :location="location" :index="index" :hotels="hotels[(location.id).split('-')[0]]" :place="places.places_city_id[location.id.split('-')[0]]" :tour_location="item.tour_location" @addplace="addplace"  @delete="remove"></location-place-component>
+                                        </draggable>
+
+                                    </ul>
+                                    <!--                                    <ul><li v-for="tour in item.tour_location" :key="item.tour_location.id" >{{item.tour_location.title}}-->
+
+
+                                    <!--                                    </li></ul>-->
+                                    <!--                                    <ul>{{places.places_city_id[1][0]}}<li v-for="tour in places.places_city_id[1]" :key="tour.id" >{{tour.title}}-->
+
+
+                                    <!--                                    </li></ul>-->
+
+                                    <div class="box-body" >
+                                        <div class="form-group">
+                                            <label for="title">Title *</label>
+                                            <input
+                                                    type="text"
+                                                    class="form-control"
+                                                    name="title"
+                                                    placeholder="Enter Title *"
+                                                    :value="item.title"
+                                                    @input="updateTitle"
+                                            >
+                                        </div>
+
+                                        <div class="form-group">
+
+                                            <label for="locations">Locations :</label>
+
+                                        </div>
+
+
+                                        <div class="form-group">
+                                            <ul id="sortable">
+                                                <draggable v-model="locations" group="people" @start="drag=true" @end="drag=false">
+                                                    <location-component v-for="location in locations"  :key="location.id" :location="location"  @delete="remove"></location-component>
+                                                </draggable>
+
+                                            </ul>
+                                        </div>
+
+
+
+
+
+                                        <div class="form-group">
+                                            <label for="addlocations">Add Locations</label>
+                                            <v-select
+                                                    name="addlocations"
+                                                    label="title"
+                                                    @input="inmodalL"
+                                                    :value="item.state"
+                                                    :options="cityAll"
+
+                                            />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="total_tour_days">Total tour days *</label>
+                                            <input
+                                                    type="text"
+                                                    class="form-control"
+                                                    name="total_tour_days"
+                                                    placeholder="Enter Total tour days *"
+                                                    :value="days_count"
+                                                    @input="updateTotal_tour_days"
+                                            >
+                                        </div>
+                                    </div>
+
+                                    <label for="addtours" v-if="select_tour">Select Tour</label>
+                                    <v-select
+                                            name="addtours"
+                                            label="title"
+                                            @input="inmodal"
+                                            :value="item.tour"
+                                            :options="tourAll"
+
+                                    />
+                                </div>
+                                <div class="form-group">
+                                    <label for="tour_id">Tour id</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            name="tour_id"
+                                            placeholder="Enter Tour id"
+                                            :value="item.tour_id"
+                                            @input="updateTour_id"
+                                    >
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="itinerary_places">Itinerary places</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            name="itinerary_places"
+                                            placeholder="Enter Itinerary places"
+                                            :value="item.itinerary_places"
+
+                                    >
+                                </div>
+                                <div class="form-group">
+                                    <label for="agency_id">Agency id</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            name="agency_id"
+                                            placeholder="Enter Agency id"
+                                            :value="item.agency_id"
+                                            @input="updateAgency_id"
+                                    >
+                                </div>
+                                <div class="form-group">
+                                    <label for="agent_id">Agent id</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            name="agent_id"
+                                            placeholder="Enter Agent id"
+                                            :value="item.agent_id"
+                                            @input="updateAgent_id"
+                                    >
+                                </div>
+                                <div class="form-group">
+                                    <label for="meal_day">Meal day</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            name="meal_day"
+                                            placeholder="Enter Meal day"
+                                            :value="item.meal_day"
+                                            @input="updateMeal_day"
+                                    >
+                                </div>
+                                <div class="form-group">
+                                    <label for="meals_supplement">Meals supplement</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            name="meals_supplement"
+                                            placeholder="Enter Meals supplement"
+                                            :value="item.meals_supplement"
+                                            @input="updateMeals_supplement"
+                                    >
+                                </div>
+                                <div class="form-group">
+                                    <label for="messageidd">Messageidd</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            name="messageidd"
+                                            placeholder="Enter Messageidd"
+                                            :value="item.messageidd"
+                                            @input="updateMessageidd"
+                                    >
+                                </div>
+                                <div class="form-group">
+                                    <label for="package_category">Package category</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            name="package_category"
+                                            placeholder="Enter Package category"
+                                            :value="item.package_category"
+                                            @input="updatePackage_category"
+                                    >
+                                </div>
+                                <div class="form-group">
+                                    <label for="pickup_address">Pickup address</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            name="pickup_address"
+                                            placeholder="Enter Pickup address"
+                                            :value="item.pickup_address"
+                                            @input="updatePickup_address"
+                                    >
+                                </div>
+                                <div class="form-group">
+                                    <label for="pickup_location">Pickup location</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            name="pickup_location"
+                                            placeholder="Enter Pickup location"
+                                            :value="item.pickup_location"
+                                            @input="updatePickup_location"
+                                    >
+                                </div>
+                                <div class="form-group">
+                                    <label for="query_feel">Query feel</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            name="query_feel"
+                                            placeholder="Enter Query feel"
+                                            :value="item.query_feel"
+                                            @input="updateQuery_feel"
+                                    >
+                                </div>
+                                <div class="form-group">
+                                    <label for="remarks">Remarks</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            name="remarks"
+                                            placeholder="Enter Remarks"
+                                            :value="item.remarks"
+                                            @input="updateRemarks"
+                                    >
+                                </div>
+                                <div class="form-group">
+                                    <label for="score">Score</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            name="score"
+                                            placeholder="Enter Score"
+                                            :value="item.score"
+                                            @input="updateScore"
+                                    >
+                                </div>
+                                <div class="form-group">
+                                    <label for="score_new">Score new</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            name="score_new"
+                                            placeholder="Enter Score new"
+                                            :value="item.score_new"
+                                            @input="updateScore_new"
+                                    >
+                                </div>
+                                <div class="form-group">
+                                    <label for="total_room">Total room</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            name="total_room"
+                                            placeholder="Enter Total room"
+                                            :value="item.total_room"
+                                            @input="updateTotal_room"
+                                    >
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="tour_cost">Tour cost</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            name="tour_cost"
+                                            placeholder="Enter Tour cost"
+                                            :value="item.tour_cost"
+                                            @input="updateTour_cost"
+                                    >
+                                </div>
+                                <div class="form-group">
+                                    <label for="tour_cost_tax">Tour cost tax</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            name="tour_cost_tax"
+                                            placeholder="Enter Tour cost tax"
+                                            :value="item.tour_cost_tax"
+                                            @input="updateTour_cost_tax"
+                                    >
+                                </div>
+                                <div class="form-group">
+                                    <label for="tour_id">Tour id</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            name="tour_id"
+                                            placeholder="Enter Tour id"
+                                            :value="item.tour_id"
+                                            @input="updateTour_id"
+                                    >
+                                </div>
+                                <div class="form-group">
+                                    <label for="tour_name">Tour name</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            name="tour_name"
+                                            placeholder="Enter Tour name"
+                                            :value="item.tour_name"
+                                            @input="updateTour_name"
+                                    >
+                                </div>
+                                <div class="form-group">
+                                    <label for="tour_location">Tour location</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            name="tour_location"
+                                            placeholder="Enter Tour location"
+                                            :value="item.tour_location"
+                                            @input="updateTour_location"
+                                    >
+                                </div>
+                            </div>
+
+                            <div class="box-footer">
+                                <vue-button-spinner
+                                        class="btn btn-primary btn-sm"
+                                        :isLoading="loading"
+                                        :disabled="loading"
+                                >
+                                    Save
+                                </vue-button-spinner>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div id="app">
+                <div v-if="showModal">
+                    <transition name="modal">
+                        <div class="modal-mask">
+                            <div class="modal-wrapper">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" @click="showModal=false">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+
+                                        </div>
+                                        <div class="modal-body">
+                                            <h4 class="modal-title">{{locationd.name}}</h4>
+                                            Days: <input type="text" placeholder="Days" v-model="days">
+                                            <button class="btn btn-primary btn-sm" @click="updateCity(days)">Save</button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </transition>
+                </div>
+
+
+            </div>
+        </section>
+    </section>
+</template>
+
+
+<!-- jQuery easing plugin -->
+
+<script>
+
+    import { mapGetters, mapActions } from 'vuex'
+    import LocationPlaceComponent from '../../cruds/Locationsplace'
+    import LocationComponent from '../../cruds/Locations'
+    import HotelComponent from '../../cruds/hotelcomp'
+    import DayplanComponent from '../../cruds/dayplancomp'
+    import draggable from 'vuedraggable'
+    import {FormWizard, TabContent,WizardButton,WizardStep} from 'vue-form-wizard'
+    import 'vue-form-wizard/dist/vue-form-wizard.min.css'
+
+
+
+    export default {
+        data() {
+            return {
+                tourlocation:[],
+                days:1,
+                showModal:false,
+                locations: [],
+                locationd: {id:'',name: '', days: ''},
+                make_tour:1,
+                select_tour:1,
+                lead_data:{},
+                meta_extra_bed:0,
+
+                summ:true,
+                hotel:false,
+                day:false,
+                trav:false,
+                train:false,
+                mail:false,
+                cost:false,
+                remarkk:false,
+                create:true,
+                createfull:false,
+
+                checked:true,
+                days_count:0,
+
+                // meta_infant:null
+                //   place:[]
+                // Code...
+            }
+        },
+        computed: {
+            ...mapGetters('QueriesSingle', ['item', 'loading','tourAll','places','cityid','hotels','cityAll','meta']),
+
+        },
+        created() {
+            // Code ...
+            this.fetchCityAll();
+            this.fetchTourAll();
+            this.lead_data=this.$route.params.lead_data
+
+            this.setDriver_pickup_date_time(this.lead_data.date+' 00:00:00')
+            this.setTraveler_name(this.lead_data.name)
+            this.setNo_of_adults(this.lead_data.adult_guest)
+            this.setNo_of_children(this.lead_data.kids_guests)
+            this.setNote(this.lead_data.remark)
+            this.setPhone(this.lead_data.phone)
+            this.setEmail(this.lead_data.email)
+            this.setmeta_infant(this.lead_data.infant_guest)
+            // infant_guest
+
+
+
+        },
+        mounted(){
+            this.currentDate = new Date().toJSON().slice(0,10).replace(/-/g,'');
+ this.item.meals_supplement="test";
+            this.item.booking_id='QRY-'+document.querySelector("meta[name='user-id']").getAttribute('content')+'-'+this.currentDate+'-'+Math.floor((Math.random() * (999-100+1)+100))
+            this.item.status=1;
+
+
+
+        },
+        destroyed() {
+            this.resetState()
+        },
+        watch: {
+            "locations": function() {
+                this.inmodalnew();
+
+            },
+            "$route.params.lead_data": function() {
+
+                this.lead_data=this.$route.params.lead_data
+            },
+            "item.tour_location": {
+
+                handler(newval, oldVal){
+
+                    this.days_count=0;
+
+                    newval.forEach( (dataObj) => {
+
+                        //     alert(dataObj.days);
+                        this.days_count=Number(this.days_count) + Number(dataObj.days);
+                        //  alert(this.days_count);
+                    });
+
+
+
+                },
+                deep: true
+
+
+            },
+
+        },
+
+
+        methods: {
+            ...mapActions('QueriesSingle', ['storeData','storeTour', 'resetState', 'setBooking_id','setplaces', 'setDriver_pickup_date_time','setBudget', 'setTraveler_name', 'setBill_pay', 'setNo_of_adults', 'setNo_of_children', 'setNote', 'setStatus', 'setPhone', 'setEmail', 'setEmail_second', 'setTraveller_id', 'setGenerated_itinerary', 'setItinerary_places', 'setAgency_id', 'setAgent_id', 'setMeal_day', 'setMeals_supplement', 'setMessageidd', 'setPackage_category', 'setPickup_address', 'setPickup_location', 'setQuery_feel', 'setRemarks', 'setScore', 'setScore_new', 'setTotal_room', 'setTotal_tour_days', 'setTour_cost', 'setTour_cost_tax', 'setTour_id', 'setTour_name', 'setTour_location','fetchTourAll','fetchplace','fetchhotel','fetchCityAll','updateCity','setTitle','setLocations','setTotal_tour_days','setmeta_infant']),
+alert(){
+  alert("hello");
+},
+            onCompletecreate(){
+
+            },
+            changeview(item){
+                //    alert(item);
+                this.summ=false;
+                this.hotel=false;
+                this.day=false;
+                this.trav=false;
+                this.train=false;
+                this.mail=false;
+                this.cost=false;
+                this[item]=true;
+            },
+            changemenu(item){
+                //    alert(item);
+                this.create=false;
+                this.createfull=false;
+                this[item]=true;
+
+
+            },
+
+
+            removeE(id){
+                //   alert(id);
+                let index = this.locations.findIndex(location => location.id === id);
+                this.locations.splice(index, 1);
+            },
+            inmodal(value){
+                //   console.log(value);
+                this.item.tour_location =JSON.parse(value.locations);
+
+                this.item.tour_name=value.title;
+                this.item.tour_id=value.id;
+                this.places.cites=this.item.tour_location;
+
+
+                this.places.cites.forEach((val) => {
+
+                    console.log(val.id);
+                    var gg=val.id;
+
+
+                    this.fetchplace(gg.split('-')[0]);
+                    this.fetchhotel(gg.split('-')[0])
+                });
+
+
+
+            },
+            inmodalnew(){
+                // alert("inmodalnew");
+                console.log(this.locations);
+                this.item.tour_location =this.locations;
+                // this.item.tour_name=value.title;
+                // this.item.tour_id=value.id;
+                this.places.cites=this.item.tour_location;
+
+
+                this.places.cites.forEach((val) => {
+
+                    console.log(val.id);
+                    var gg=val.id;
+
+
+                    this.fetchplace(gg.split('-')[0]);
+                    this.fetchhotel(gg.split('-')[0])
+                });
+
+
+
+            },
+            call_place(id){
+                console.log(id);
+            },
+            remove(id){
+// alert(id);
+                let index = this.item.tour_location.findIndex(location => location.id === id);
+                this.item.tour_location.splice(index, 1);
+            },
+            removeloc(id){
+                // alert("removeloc");
+                let index = this.item.tour_location.findIndex(location => location.id === id);
+                this.item.tour_location.splice(index, 1);
+            },
+
+            addplace(id){
+                console.log(id);
+                this.setItinerary_places(id)
+            },
+            addhotel(e){
+                this.setTour_location(e.target.value)
+            },
+            updateDriver_pickup_date_time(e) {
+                this.setDriver_pickup_date_time(e.target.value)
+            },
+            updateBooking_id(e) {
+                this.setBooking_id(e.target.value)
+                //   this.fetchplace();
+            },
+            updateBudget(e) {
+                this.setBudget(e.target.value)
+            },
+            updateTraveler_name(e) {
+                this.setTraveler_name(e.target.value)
+            },
+            updateBill_pay(e) {
+                this.setBill_pay(e.target.value)
+            },
+            updateNo_of_adults(e) {
+                this.setNo_of_adults(e.target.value)
+            },
+            updateNo_of_children(e) {
+                this.setNo_of_children(e.target.value)
+            },
+            updatemeta_infant(e) {
+                this.setmeta_infant(e.target.value)
+            },
+            updateNote(e) {
+                this.setNote(e.target.value)
+            },
+            updateStatus(e) {
+                this.setStatus(e.target.value)
+            },
+            updatePhone(e) {
+                this.setPhone(e.target.value)
+            },
+            updateEmail(e) {
+                this.setEmail(e.target.value)
+            },
+            updateEmail_second(e) {
+                this.setEmail_second(e.target.value)
+            },
+            updateTraveller_id(e) {
+                this.setTraveller_id(e.target.value)
+            },
+            updateGenerated_itinerary(e) {
+                this.setGenerated_itinerary(e.target.value)
+            },
+            // updateItinerary_places(e) {
+            //     this.setItinerary_places(e.target.value)
+            // },
+            updateAgency_id(e) {
+                this.setAgency_id(e.target.value)
+            },
+            updateAgent_id(e) {
+                this.setAgent_id(e.target.value)
+            },
+            updateMeal_day(e) {
+                this.setMeal_day(e.target.value)
+            },
+            updateMeals_supplement(e) {
+                this.setMeals_supplement(e.target.value)
+            },
+            updateMessageidd(e) {
+                this.setMessageidd(e.target.value)
+            },
+            updatePackage_category(e) {
+                this.setPackage_category(e.target.value)
+            },
+            updatePickup_address(e) {
+                this.setPickup_address(e.target.value)
+            },
+            updatePickup_location(e) {
+                this.setPickup_location(e.target.value)
+            },
+            updateQuery_feel(e) {
+                this.setQuery_feel(e.target.value)
+            },
+            updateRemarks(e) {
+                this.setRemarks(e.target.value)
+            },
+            updateScore(e) {
+                this.setScore(e.target.value)
+            },
+            updateScore_new(e) {
+                this.setScore_new(e.target.value)
+            },
+            updateTotal_room(e) {
+                this.setTotal_room(e.target.value)
+            },
+            updateTotal_tour_days(e) {
+                this.setTotal_tour_days(e.target.value)
+            },
+            updateTour_cost(e) {
+                this.setTour_cost(e.target.value)
+            },
+            updateTour_cost_tax(e) {
+                this.setTour_cost_tax(e.target.value)
+            },
+            updateTour_id(e) {
+                this.setTour_id(e.target.value)
+            },
+            updateTour_name(e) {
+                this.setTour_name(e.target.value)
+            },
+            updateTour_location(e) {
+                this.setTour_location(e.target.value)
+            },
+
+            //----
+            updateTitle(e) {
+                this.setTitle(e.target.value)
+            },
+            updateLocations(e) {
+                // this.setLocations(e.target.value)
+            },
+            updateTotal_tour_days(e) {
+                this.setTotal_tour_days(e.target.value)
+            },
+            inmodalL(value){
+                this.selected = null
+                this.locationd.id=value.id+'-'+Math.floor((Math.random()* 500) + 1);
+                this.locationd.name=value.title;
+                this.showModal=true;
+                this.inmodalnew();
+
+            },
+
+            updateCity(day) {
+                //    alert(day);
+                this.showModal=false;
+                this.locationd.days=day;
+                this.locations.push({...this.locationd});
+
+                this.locationd.name="";
+                this.count++;
+                //     this.setCity(value)
+                this.days=1;
+
+                // this.setLocations(this.locations);
+            },
+            submitTour() {
+                this.storeTour()
+                    .then(() => {
+                        // this.$router.push({ name: 'tours.index' })
+                        // this.$eventHub.$emit('create-success')
+                    })
+                    .catch((error) => {
+                        console.error(error)
+                    })
+            },
+
+            submitForm() {
+                this.storeData()
+                    .then(() => {
+                        this.$router.push({ name: 'queries.index' })
+                        this.$eventHub.$emit('create-success')
+                    })
+                    .catch((error) => {
+                        console.error(error)
+                    })
+            },
+            continuesubmit(){
+
+                this.storeData()
+                    .then(() => {
+                        this.changemenu('createfull');
+
+                    })
+                    .catch((error) => {
+                        console.error(error)
+                    })
+
+
+
+            }
+        },
+        components: {LocationPlaceComponent,LocationComponent,HotelComponent,DayplanComponent,draggable,FormWizard,
+            TabContent ,WizardButton,WizardStep}
+    }
+</script>
+
+
+<style scoped>
+
+    /*form styles*/
+    #msform {
+        width: 400px;
+        margin: 50px auto;
+        text-align: center;
+        position: relative;
+    }
+
+    #msform fieldset {
+        font-size: 16px;
+        border: 0 none;
+        border-radius: 3px;
+        /*box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);*/
+        padding: 20px 30px;
+        /*box-sizing: border-box;*/
+        width: 80%;
+        margin: 0 10%;
+        /*stacking fieldsets above each other*/
+        position: absolute;
+    }
+
+    /*Hide all except first fieldset*/
+    #msform fieldset:not(:first-of-type) {
+        display: none;
+    }
+
+
+    #msform .action-button {
+        width: 100px;
+        background: #27AE60;
+        font-weight: bold;
+        color: white;
+        border: 0 none;
+        border-radius: 5px;
+        cursor: pointer;
+        padding: 10px 5px;
+        margin: 10px 5px;
+    }
+
+
+    /*headings*/
+
+
+    /*progressbar*/
+    #progressbar {
+        margin-bottom: 30px;
+        overflow: hidden;
+        /*CSS counters to number the steps*/
+        counter-reset: step;
+        width:100%;
+    }
+
+    #progressbar li {
+        list-style-type: block;
+        color: white;
+        text-transform: uppercase;
+        font-size: 9px;
+        width: 33.33%;
+        margin-left:-10px;
+        float: left;
+        position: relative;
+    }
+
+    #progressbar li:before {
+        content: counter(step);
+        counter-increment: step;
+        width: 20px;
+        line-height: 20px;
+        display: block;
+        font-size: 10px;
+        color: #333;
+        background: white;
+        border-radius: 3px;
+        margin: 0 auto 5px auto;
+    }
+
+    /*progressbar connectors*/
+    #progressbar li:after {
+        content: '';
+        width: 100%;
+        height: 2px;
+        background: white;
+        position: absolute;
+        left: -50%;
+        top: 9px;
+        z-index: -1; /*put it behind the numbers*/
+    }
+
+    #progressbar li:first-child:after {
+        /*connector not needed before the first step*/
+        content: none;
+    }
+
+    /*marking active/completed steps green*/
+    /*The number of the step and the connector before it = green*/
+    #progressbar li.active:before, #progressbar li.active:after {
+        background: #27AE60;
+        color: white;
+    }
+
+
+    .activedev{
+        display: block;
+    }
+    .hidedev{
+        display: none;
+    }
+    .modal-mask {
+        position: fixed;
+        z-index: 9998;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, .5);
+        display: table;
+        transition: opacity .3s ease;
+    }
+
+    .modal-wrapper {
+        display: table-cell;
+        vertical-align: middle;
+    }
+
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+    }
+
+    .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #4a9999;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+    input:checked + .slider {
+        background-color: #17507d;
+    }
+
+    input:focus + .slider {
+        box-shadow: 0 0 1px #2196F3;
+    }
+
+    input:checked + .slider:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+    }
+
+    /* Rounded sliders */
+    .slider.round {
+        border-radius: 34px;
+    }
+
+    .slider.round:before {
+        border-radius: 50%;
+    }
+
+    element {
+
+    }
+
+
+</style>
+<style>
+    .wizard-card-footer.clearfix {
+
+        margin-top: 200px;
+        position: fixed;
+
+    }
+    .wizard-footer-left {
+
+        margin-left: 300px;
+
+    }
+    .wizard-footer-right {
+
+        margin-left: 10px;
+
+    }
+    .vue-form-wizard.md .wizard-icon-circle {
+
+        width: 30px;
+        height: 30px;
+        font-size: 14px;
+        margin-top: 20px;
+
+    }
+</style>

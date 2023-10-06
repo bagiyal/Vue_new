@@ -1,0 +1,224 @@
+body {
+    background: #fff;
+    padding: 0;
+    margin: 0
+}
+.main{
+    padding: 0 3rem 3rem 3rem;
+    margin: 3rem 0;
+    border: 1px solid #dee2e6;
+}
+.address {
+    float: right;
+}
+
+.address strong .fa {
+    color: #1d51a4;
+    font-size: 18px;
+}
+
+.container-fluid {
+    width: 1360px;
+    max-width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.clr {
+    color: #1d51a4;
+}
+
+.headding {
+    background: #1d51a4;
+    color: #fff;
+    padding: 8px 15px;
+    font-size: 20px;
+    border-radius: 10px;
+}
+
+.logo img {
+    width: 200px;
+}
+
+.package {
+    border: 1px solid #ccc;
+    margin-top: 20px;
+    width: 100%;
+    border-radius: 10px;
+}
+
+.city {
+    padding: 10px;
+}
+
+.city p {
+    font-size: 16px;
+    font-weight: 200;
+    padding-left: 20px;
+}
+
+.city .fa {
+    color: #1d51a4;
+    padding-right: 8px;
+    font-size: 20px;
+}
+
+p.package_des {
+    font-size: 20px;
+    padding: 20px;
+    font-weight: 300;
+}
+
+p.package_des span {
+    color: red;
+}
+
+.pkg_img img {
+    width: 200px;
+}
+
+.pkg_details {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.pkg_details {
+    display: flex;
+    border-top: 1px solid #ccc;
+    padding-top: 15px;
+    flex-wrap: wrap;
+    margin: 0px 0 12px 20px;
+    justify-content: space-between;
+}
+
+.room_cat {
+    margin: 0px 0 12px 30px;
+}
+
+.guest_name p {
+    font-size: 22px;
+    font-weight: 300;
+    margin-bottom: 0;
+}
+
+.voucher p {
+    font-size: 22px;
+    font-weight: 300;
+    margin-bottom: 0;
+}
+
+.enter_details {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+}
+
+.enter_details p {
+    font-size: 12px;
+}
+
+.meal p {
+    font-size: 16px;
+}
+
+.checkin {
+    text-align: center;
+    color: #6e6f72;
+    line-height: 20px;
+}
+
+.enter_details p.date {
+    font-size: 20px;
+}
+
+.meal p.clr {
+    font-size: 14px;
+}
+
+.meal {
+    margin-top: 20px;
+}
+
+.guest_name {
+    margin-right: 50px;
+}
+
+.room {
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    margin-left: 30px;
+    margin-bottom: 20px;
+    flex-wrap: wrap
+}
+
+.room_services {
+    padding-right: 28px;
+}
+
+.room_services p {
+    margin: 0
+}
+
+.days_headding {
+    background: #1c51a3;
+    width: 400px;
+    max-width: 100%;
+    padding: 6px 10px;
+    border-radius: 10px;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    margin: 25px 0;
+}
+
+.day h5 {
+    font-weight: 300;
+    font-size: 20px;
+}
+
+.day h2 {
+    line-height: 18px;
+    font-weight: 300;
+    font-size: 22px;
+}
+
+.visit {
+    background: #1c51a2;
+    color: #fff;
+    text-align: center;
+    border-radius: 30px;
+    padding: 10px 20px;
+}
+
+.Visit_loaction {
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.remark {
+    color: #ee1d23;
+    text-align: center;
+}
+
+.click_btn {
+    text-align: center;
+}
+
+.click_btn button.btn.btn-primary {
+    display: block;
+    margin: 10px 0;
+    text-align: center;
+    padding: 8px 50px;
+    background: #1c51a3;
+}
+
+.click_btn {
+    justify-content: center;
+    display: grid;
+    margin-top: 40px;
+}

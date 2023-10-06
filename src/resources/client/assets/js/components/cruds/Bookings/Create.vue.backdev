@@ -1,0 +1,842 @@
+<template>
+    <section class="content-wrapper" style="margin-left: 5% !important;min-height: 960px;">
+        <section class="content-header">
+            <h1>Booking</h1>
+        </section>
+
+        <section class="content">
+            <div class="row">
+                <div class="col-xs-12">
+                    <form @submit.prevent="submitForm" novalidate>
+                        <div class="box">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Create</h3>
+                            </div>
+
+                            <div class="box-body">
+                                <back-buttton></back-buttton>
+                            </div>
+
+                            <bootstrap-alert />
+
+                            <div class="box-body">
+                                <div class="form-group">
+                                    <label for="booking_id">Booking id *</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            name="booking_id"
+                                            placeholder="Enter Booking id *"
+                                            :value="item.booking_id"
+                                            @input="updateBooking_id"
+                                            >
+                                </div>
+                                <div class="form-group">
+                                    <label for="full_name">Full name</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            name="full_name"
+                                            placeholder="Enter Full name"
+                                            :value="item.full_name"
+                                            @input="updateFull_name"
+                                            >
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Email</label>
+                                    <input
+                                            type="email"
+                                            class="form-control"
+                                            name="email"
+                                            placeholder="Enter Email"
+                                            :value="item.email"
+                                            @input="updateEmail"
+                                            >
+                                </div>
+                                <div class="form-group">
+                                    <label for="email2">Email2</label>
+                                    <input
+                                            type="email"
+                                            class="form-control"
+                                            name="email2"
+                                            placeholder="Enter Email2"
+                                            :value="item.email2"
+                                            @input="updateEmail2"
+                                            >
+                                </div>
+                                <div class="form-group">
+                                    <label for="phone">Phone</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            name="phone"
+                                            placeholder="Enter Phone"
+                                            :value="item.phone"
+                                            @input="updatePhone"
+                                            >
+                                </div>
+                                <div class="form-group">
+                                    <label for="activated">Activated</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            name="activated"
+                                            placeholder="Enter Activated"
+                                            :value="item.activated"
+                                            @input="updateActivated"
+                                            >
+                                </div>
+                                <div class="form-group">
+                                    <label for="score">Score</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            name="score"
+                                            placeholder="Enter Score"
+                                            :value="item.score"
+                                            @input="updateScore"
+                                            >
+                                </div>
+                                <div class="form-group">
+                                    <label for="no_of_adults">No of adults</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            name="no_of_adults"
+                                            placeholder="Enter No of adults"
+                                            :value="item.no_of_adults"
+                                            @input="updateNo_of_adults"
+                                            >
+                                </div>
+                                <div class="form-group">
+                                    <label for="no_of_children">No of children</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            name="no_of_children"
+                                            placeholder="Enter No of children"
+                                            :value="item.no_of_children"
+                                            @input="updateNo_of_children"
+                                            >
+                                </div>
+                                <div class="form-group">
+                                    <ul id="sortable">
+                                        <draggable v-model="item.tour_location" group="people" @start="drag=true" @end="drag=false">
+                                            <location-place-component v-for="(location,index ) in item.tour_location"  :key="location.id" :location="location" :index="index" :hotels="hotels[(location.id).split('-')[0]]" :place="places.places_city_id[location.id.split('-')[0]]" :tour_location="item.tour_location" @addplace="addplace"  @delete="remove"></location-place-component>
+                                        </draggable>
+
+
+                                    </ul>
+                                <!--                                    <ul><li v-for="tour in item.tour_location" :key="item.tour_location.id" >{{item.tour_location.title}}-->
+
+
+                                <!--                                    </li></ul>-->
+                                <!--                                    <ul>{{places.places_city_id[1][0]}}<li v-for="tour in places.places_city_id[1]" :key="tour.id" >{{tour.title}}-->
+
+
+                                <!--                                    </li></ul>-->
+
+                                   <div class="box-body" v-if="make_tour">
+                                       <div class="form-group">
+                                           <label for="title">Title *</label>
+                                           <input
+                                                   type="text"
+                                                   class="form-control"
+                                                   name="title"
+                                                   placeholder="Enter Title *"
+                                                   :value="item.title"
+                                                   @input="updateTitle"
+                                           >
+                                       </div>
+
+                                       <div class="form-group">
+
+                                           <label for="locations">Locations :</label>
+
+                                       </div>
+
+
+                                       <div class="form-group">
+                                           <ul id="sortable">
+                                               <draggable v-model="locations" group="people" @start="drag=true" @end="drag=false">
+                                                   <location-component v-for="location in locations"  :key="location.id" :location="location"  @delete="remove"></location-component>
+                                               </draggable>
+
+                                           </ul>
+                                       </div>
+
+
+
+
+
+                                       <div class="form-group">
+                                           <label for="addlocations">Add Locations</label>
+                                           <v-select
+                                                   name="addlocations"
+                                                   label="title"
+                                                   @input="inmodalL"
+                                                   :value="item.state"
+                                                   :options="cityAll"
+
+                                           />
+                                       </div>
+
+                                       <div class="form-group">
+                                           <label for="total_tour_days">Total tour days *</label>
+                                           <input
+                                                   type="text"
+                                                   class="form-control"
+                                                   name="total_tour_days"
+                                                   placeholder="Enter Total tour days *"
+                                                   :value="item.total_tour_days"
+                                                   @input="updateTotal_tour_days"
+                                           >
+                                       </div>
+                                   </div>
+                                <label for="addtours">Select Tour</label>
+                                <v-select
+                                        name="addtours"
+                                        label="title"
+                                        @input="inmodal"
+                                        :value="item.tour"
+                                        :options="tourAll"
+
+                                />
+                            </div>
+                                <div class="form-group">
+                                    <label for="agency_id">Agency id</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            name="agency_id"
+                                            placeholder="Enter Agency id"
+                                            :value="item.agency_id"
+                                            @input="updateAgency_id"
+                                            >
+                                </div>
+                                <div class="form-group">
+                                    <label for="agent_id">Agent id</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            name="agent_id"
+                                            placeholder="Enter Agent id"
+                                            :value="item.agent_id"
+                                            @input="updateAgent_id"
+                                            >
+                                </div>
+                                <div class="form-group">
+                                    <label for="meal_day">Meal day</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            name="meal_day"
+                                            placeholder="Enter Meal day"
+                                            :value="item.meal_day"
+                                            @input="updateMeal_day"
+                                            >
+                                </div>
+                                <div class="form-group">
+                                    <label for="bill_pay">Bill pay</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            name="bill_pay"
+                                            placeholder="Enter Bill pay"
+                                            :value="item.bill_pay"
+                                            @input="updateBill_pay"
+                                            >
+                                </div>
+                                <div class="form-group">
+                                    <label for="budget">Budget</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            name="budget"
+                                            placeholder="Enter Budget"
+                                            :value="item.budget"
+                                            @input="updateBudget"
+                                            >
+                                </div>
+                                <div class="form-group">
+                                    <label for="driver_pick_up_time">Driver pick up time</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            name="driver_pick_up_time"
+                                            placeholder="Enter Driver pick up time"
+                                            :value="item.driver_pick_up_time"
+                                            @input="updateDriver_pick_up_time"
+                                            >
+                                </div>
+                                <div class="form-group">
+                                    <label for="driver_pick_up_time_updated">Driver pick up time updated</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            name="driver_pick_up_time_updated"
+                                            placeholder="Enter Driver pick up time updated"
+                                            :value="item.driver_pick_up_time_updated"
+                                            @input="updateDriver_pick_up_time_updated"
+                                            >
+                                </div>
+                                <div class="form-group">
+                                    <label for="drop_address">Drop address</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            name="drop_address"
+                                            placeholder="Enter Drop address"
+                                            :value="item.drop_address"
+                                            @input="updateDrop_address"
+                                            >
+                                </div>
+                                <div class="form-group">
+                                    <label for="handler_name">Handler name</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            name="handler_name"
+                                            placeholder="Enter Handler name"
+                                            :value="item.handler_name"
+                                            @input="updateHandler_name"
+                                            >
+                                </div>
+                                <div class="form-group">
+                                    <label for="handler_no">Handler no</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            name="handler_no"
+                                            placeholder="Enter Handler no"
+                                            :value="item.handler_no"
+                                            @input="updateHandler_no"
+                                            >
+                                </div>
+                                <div class="form-group">
+                                    <label for="meals_supplement">Meals supplement</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            name="meals_supplement"
+                                            placeholder="Enter Meals supplement"
+                                            :value="item.meals_supplement"
+                                            @input="updateMeals_supplement"
+                                            >
+                                </div>
+                                <div class="form-group">
+                                    <label for="member_of_iti">Member of iti</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            name="member_of_iti"
+                                            placeholder="Enter Member of iti"
+                                            :value="item.member_of_iti"
+                                            @input="updateMember_of_iti"
+                                            >
+                                </div>
+                                <div class="form-group">
+                                    <label for="package_category">Package category</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            name="package_category"
+                                            placeholder="Enter Package category"
+                                            :value="item.package_category"
+                                            @input="updatePackage_category"
+                                            >
+                                </div>
+                                <div class="form-group">
+                                    <label for="pickup_address">Pickup address</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            name="pickup_address"
+                                            placeholder="Enter Pickup address"
+                                            :value="item.pickup_address"
+                                            @input="updatePickup_address"
+                                            >
+                                </div>
+                                <div class="form-group">
+                                    <label for="total_price">Total price</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            name="total_price"
+                                            placeholder="Enter Total price"
+                                            :value="item.total_price"
+                                            @input="updateTotal_price"
+                                            >
+                                </div>
+                                <div class="form-group">
+                                    <label for="pickup_location">Pickup location</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            name="pickup_location"
+                                            placeholder="Enter Pickup location"
+                                            :value="item.pickup_location"
+                                            @input="updatePickup_location"
+                                            >
+                                </div>
+                                <div class="form-group">
+                                    <label for="tour_cost">Tour cost</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            name="tour_cost"
+                                            placeholder="Enter Tour cost"
+                                            :value="item.tour_cost"
+                                            @input="updateTour_cost"
+                                            >
+                                </div>
+                                <div class="form-group">
+                                    <label for="selected_car">Selected car</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            name="selected_car"
+                                            placeholder="Enter Selected car"
+                                            :value="item.selected_car"
+                                            @input="updateSelected_car"
+                                            >
+                                </div>
+                                <div class="form-group">
+                                    <label for="status">Status</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            name="status"
+                                            placeholder="Enter Status"
+                                            :value="item.status"
+                                            @input="updateStatus"
+                                            >
+                                </div>
+                                <div class="form-group">
+                                    <label for="supplier_id">Supplier id</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            name="supplier_id"
+                                            placeholder="Enter Supplier id"
+                                            :value="item.supplier_id"
+                                            @input="updateSupplier_id"
+                                            >
+                                </div>
+                                <div class="form-group">
+                                    <label for="total_room">Total room</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            name="total_room"
+                                            placeholder="Enter Total room"
+                                            :value="item.total_room"
+                                            @input="updateTotal_room"
+                                            >
+                                </div>
+                                <div class="form-group">
+                                    <label for="total_tour_days">Total tour days</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            name="total_tour_days"
+                                            placeholder="Enter Total tour days"
+                                            :value="item.total_tour_days"
+                                            @input="updateTotal_tour_days"
+                                            >
+                                </div>
+                                <div class="form-group">
+                                    <label for="traveller_id">Traveller id</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            name="traveller_id"
+                                            placeholder="Enter Traveller id"
+                                            :value="item.traveller_id"
+                                            @input="updateTraveller_id"
+                                            >
+                                </div>
+                                <div class="form-group">
+                                    <label for="itinerary_places">Itinerary places</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            name="itinerary_places"
+                                            placeholder="Enter Itinerary places"
+                                            :value="item.itinerary_places"
+                                            @input="updateItinerary_places"
+                                            >
+                                </div>
+                                <div class="form-group">
+                                    <label for="itinerary_places_time">Itinerary places time</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            name="itinerary_places_time"
+                                            placeholder="Enter Itinerary places time"
+                                            :value="item.itinerary_places_time"
+                                            @input="updateItinerary_places_time"
+                                            >
+                                </div>
+                                <div class="form-group">
+                                    <label for="tour_id">Tour id</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            name="tour_id"
+                                            placeholder="Enter Tour id"
+                                            :value="item.tour_id"
+                                            @input="updateTour_id"
+                                            >
+                                </div>
+                                <div class="form-group">
+                                    <label for="tour_name">Tour name</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            name="tour_name"
+                                            placeholder="Enter Tour name"
+                                            :value="item.tour_name"
+                                            @input="updateTour_name"
+                                            >
+                                </div>
+                                <div class="form-group">
+                                    <label for="tour_location">Tour location</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            name="tour_location"
+                                            placeholder="Enter Tour location"
+                                            :value="item.tour_location"
+                                            @input="updateTour_location"
+                                            >
+                                </div>
+                            </div>
+
+                            <div class="box-footer">
+                                <vue-button-spinner
+                                        class="btn btn-primary btn-sm"
+                                        :isLoading="loading"
+                                        :disabled="loading"
+                                        >
+                                    Save
+                                </vue-button-spinner>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div id="app">
+                <div v-if="showModal">
+                    <transition name="modal">
+                        <div class="modal-mask">
+                            <div class="modal-wrapper">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" @click="showModal=false">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                            <h4 class="modal-title">{{locationd.name}}</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            Days: <input type="text" placeholder="Days" v-model="days">
+                                            <button class="btn btn-primary btn-sm" @click="updateCity(days)">Save</button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </transition>
+                </div>
+
+
+            </div>
+        </section>
+    </section>
+</template>
+
+
+<script>
+import { mapGetters, mapActions } from 'vuex'
+import LocationPlaceComponent from '../../cruds/Locationsplace'
+import LocationComponent from '../../cruds/Locations'
+import draggable from 'vuedraggable'
+
+export default {
+    data() {
+        return {
+            tourlocation:[],
+            days:1,
+            showModal:false,
+            locations: [],
+            locationd: {id:'',name: '', days: ''},
+            make_tour:1,
+            select_tour:1
+            // Code...
+        }
+    },
+    computed: {
+        ...mapGetters('BookingsSingle', ['item', 'loading','tourAll','places','cityid','hotels','cityAll'])
+    },
+    created() {
+        this.fetchCityAll();
+        this.fetchTourAll()
+    },
+  watch: {
+    "locations": function() {
+        this.inmodalnew();
+
+    },
+
+},
+    destroyed() {
+        this.resetState()
+    },
+    methods: {
+        ...mapActions('BookingsSingle', ['storeData', 'resetState', 'setBooking_id', 'setFull_name', 'setEmail', 'setEmail2', 'setPhone', 'setActivated', 'setScore', 'setNo_of_adults', 'setNo_of_children', 'setAgency_id', 'setAgent_id', 'setMeal_day', 'setBill_pay', 'setBudget', 'setDriver_pick_up_time', 'setDriver_pick_up_time_updated', 'setDrop_address', 'setHandler_name', 'setHandler_no', 'setMeals_supplement', 'setMember_of_iti', 'setPackage_category', 'setPickup_address', 'setTotal_price', 'setPickup_location', 'setTour_cost', 'setSelected_car', 'setStatus', 'setSupplier_id', 'setTotal_room', 'setTotal_tour_days', 'setTraveller_id', 'setItinerary_places', 'setItinerary_places_time', 'setTour_id', 'setTour_name', 'setTour_location','fetchTourAll','fetchplace','fetchhotel','fetchCityAll','updateCity','setTitle','setLocations','setTotal_tour_days']),
+        removeE(id){
+            //   alert(id);
+            let index = this.locations.findIndex(location => location.id === id);
+            this.locations.splice(index, 1);
+        },
+        inmodal(value){
+            //      console.log(value);
+            this.item.tour_location =JSON.parse(value.locations);
+            this.item.tour_name=value.title;
+            this.item.tour_id=value.id;
+            this.places.cites=this.item.tour_location;
+
+
+            this.places.cites.forEach((val) => {
+
+                console.log(val.id);
+                var gg=val.id;
+
+
+                this.fetchplace(gg.split('-')[0]);
+                this.fetchhotel(gg.split('-')[0])
+            });
+
+
+
+        }, inmodalnew(){
+            alert("inmodalnew");
+            console.log(this.locations);
+            this.item.tour_location =this.locations;
+            // this.item.tour_name=value.title;
+            // this.item.tour_id=value.id;
+            this.places.cites=this.item.tour_location;
+
+
+            this.places.cites.forEach((val) => {
+
+                console.log(val.id);
+                var gg=val.id;
+
+
+                this.fetchplace(gg.split('-')[0]);
+                this.fetchhotel(gg.split('-')[0])
+            });
+
+
+
+        },
+        call_place(id){
+            console.log(id);
+        },
+        remove(id){
+
+            let index = this.item.tour_location.findIndex(location => location.id === id);
+            this.item.tour_location.splice(index, 1);
+        },
+
+        addplace(id){
+            console.log(id);
+            this.setItinerary_places(id)
+        },
+        updateBooking_id(e) {
+            this.setBooking_id(e.target.value)
+        },
+        updateFull_name(e) {
+            this.setFull_name(e.target.value)
+        },
+        updateEmail(e) {
+            this.setEmail(e.target.value)
+        },
+        updateEmail2(e) {
+            this.setEmail2(e.target.value)
+        },
+        updatePhone(e) {
+            this.setPhone(e.target.value)
+        },
+        updateActivated(e) {
+            this.setActivated(e.target.value)
+        },
+        updateScore(e) {
+            this.setScore(e.target.value)
+        },
+        updateNo_of_adults(e) {
+            this.setNo_of_adults(e.target.value)
+        },
+        updateNo_of_children(e) {
+            this.setNo_of_children(e.target.value)
+        },
+        updateAgency_id(e) {
+            this.setAgency_id(e.target.value)
+        },
+        updateAgent_id(e) {
+            this.setAgent_id(e.target.value)
+        },
+        updateMeal_day(e) {
+            this.setMeal_day(e.target.value)
+        },
+        updateBill_pay(e) {
+            this.setBill_pay(e.target.value)
+        },
+        updateBudget(e) {
+            this.setBudget(e.target.value)
+        },
+        updateDriver_pick_up_time(e) {
+            this.setDriver_pick_up_time(e.target.value)
+        },
+        updateDriver_pick_up_time_updated(e) {
+            this.setDriver_pick_up_time_updated(e.target.value)
+        },
+        updateDrop_address(e) {
+            this.setDrop_address(e.target.value)
+        },
+        updateHandler_name(e) {
+            this.setHandler_name(e.target.value)
+        },
+        updateHandler_no(e) {
+            this.setHandler_no(e.target.value)
+        },
+        updateMeals_supplement(e) {
+            this.setMeals_supplement(e.target.value)
+        },
+        updateMember_of_iti(e) {
+            this.setMember_of_iti(e.target.value)
+        },
+        updatePackage_category(e) {
+            this.setPackage_category(e.target.value)
+        },
+        updatePickup_address(e) {
+            this.setPickup_address(e.target.value)
+        },
+        updateTotal_price(e) {
+            this.setTotal_price(e.target.value)
+        },
+        updatePickup_location(e) {
+            this.setPickup_location(e.target.value)
+        },
+        updateTour_cost(e) {
+            this.setTour_cost(e.target.value)
+        },
+        updateSelected_car(e) {
+            this.setSelected_car(e.target.value)
+        },
+        updateStatus(e) {
+            this.setStatus(e.target.value)
+        },
+        updateSupplier_id(e) {
+            this.setSupplier_id(e.target.value)
+        },
+        updateTotal_room(e) {
+            this.setTotal_room(e.target.value)
+        },
+        updateTotal_tour_days(e) {
+            this.setTotal_tour_days(e.target.value)
+        },
+        updateTraveller_id(e) {
+            this.setTraveller_id(e.target.value)
+        },
+        updateItinerary_places(e) {
+            // this.setItinerary_places(e.target.value)
+        },
+        updateItinerary_places_time(e) {
+            this.setItinerary_places_time(e.target.value)
+        },
+        updateTour_id(e) {
+            this.setTour_id(e.target.value)
+        },
+        updateTour_name(e) {
+            this.setTour_name(e.target.value)
+        },
+        updateTour_location(e) {
+            this.setTour_location(e.target.value)
+        },
+        updateTitle(e) {
+            this.setTitle(e.target.value)
+        },
+        updateLocations(e) {
+            // this.setLocations(e.target.value)
+        },
+        updateTotal_tour_days(e) {
+            this.setTotal_tour_days(e.target.value)
+        },
+        inmodalL(value){
+            this.locationd.id=value.id+'-'+Math.floor((Math.random()* 500) + 1);
+            this.locationd.name=value.title;
+            this.showModal=true;
+            //  this.inmodalnew();
+
+        },
+        updateCity(day) {
+            //    alert(day);
+            this.showModal=false;
+            this.locationd.days=day;
+            this.locations.push({...this.locationd});
+
+            this.locationd.name="";
+            this.count++;
+            //     this.setCity(value)
+            this.days=1;
+
+            // this.setLocations(this.locations);
+        },
+        submitTour() {
+            this.storeTour()
+                .then(() => {
+                    // this.$router.push({ name: 'tours.index' })
+                    // this.$eventHub.$emit('create-success')
+                })
+                .catch((error) => {
+                    console.error(error)
+                })
+        },
+        submitForm() {
+            this.storeData()
+                .then(() => {
+                    this.$router.push({ name: 'bookings.index' })
+                    this.$eventHub.$emit('create-success')
+                })
+                .catch((error) => {
+                    console.error(error)
+                })
+        }
+    },
+    components: {LocationPlaceComponent,LocationComponent,draggable}
+}
+</script>
+
+
+<style scoped>
+    .modal-mask {
+        position: fixed;
+        z-index: 9998;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, .5);
+        display: table;
+        transition: opacity .3s ease;
+    }
+
+    .modal-wrapper {
+        display: table-cell;
+        vertical-align: middle;
+    }
+</style>

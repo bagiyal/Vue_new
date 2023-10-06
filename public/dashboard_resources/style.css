@@ -1,0 +1,308 @@
+.pin_img{display: block;}
+.loc_img{display: none;}
+@media only screen and (max-width: 600px) {
+    .pin_img{display: none !important;}
+    .loc_img{display: block !important;}
+}
+body {
+    background: #fff;
+    padding: 0;
+    margin: 0;
+}
+
+.logo img {
+    width: 250px;
+}
+.f-15{
+	    font-size: 15px !important;
+}
+.address {
+    width: 360px;
+    float: right;
+    display: flex;
+}
+
+.address-icon i {
+    font-size: 22px;
+    color: #2553a3;
+}
+
+.address-icon p {
+    font-size: 19px;
+    padding: 0 10px;
+}
+
+.address span {
+    color: #616062;
+    font-size: 18px;
+}
+
+.nav-header {
+    border-bottom: 1px solid #ccc;
+}
+
+.header-bar {
+    background: #d3d3d4;
+    padding: 20px 20px;
+    border-radius: 6px;
+    margin-top: 25px;
+}
+
+.user-details {
+    background: #2553a3;
+    color: #fff;
+    padding: 13px 10px;
+    border-radius: 6px;
+    margin-top: 15px;
+}
+
+.city-details-bar {
+    background: #2553a3;
+    color: #fff;
+    padding: 5px 15px;
+    border-radius: 6px;
+    margin-top: 15px;
+}
+
+.user-details p {
+    margin-bottom: 0;
+    font-size: 14px;
+}
+
+.user-details span {
+    font-weight: 700;
+}
+
+.city-details-bar .city-name {
+    margin-bottom: 0;
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.fare-details-bar {
+    background: #251f1f;
+    color: #fff;
+    border-radius: 6px;
+    margin-top: 10px;
+    padding: 5px 10px;
+}
+
+.fare-details-bar ul {
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    margin: 0;
+    padding: 0 10px;
+}
+
+.city-details-bar p {
+    font-size: 14px;
+}
+
+.fare-details-bar .fare-bottom {
+    color: #fff;
+    margin-bottom: 0;
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.fare-details-bar p {
+    font-size: 14px;
+}
+
+.hotel-details {
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    margin-top: 15px;
+}
+
+.hotel-details .top-bar {
+    background: #2553a3;
+    color: #fff;
+    padding: 3px 10px;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+}
+
+.hotel-details p {
+    font-weight: 500;
+    margin-bottom: 0;
+}
+
+.hotel-addres {
+    margin: 5px 10px;
+    font-size: 18px;
+    border-bottom: 1px solid #6f6e6f;
+}
+
+p.intry-date {
+    margin-bottom: 0;
+    font-size: 12px;
+    color: #6f6e6f;
+}
+
+.room-details {
+    margin: 5px 10px;
+    font-size: 18px;
+}
+
+.room-details a {
+    font-size: 14px;
+}
+
+.room-details a:hover {
+    text-decoration: none;
+}
+
+.bed-dtls ul {
+    list-style: none;
+    padding: 0 10px;
+    display: flex;
+    justify-content: space-between;
+    margin: auto;
+    text-align: center;
+}
+
+.bed-dtls ul li {
+    padding: 8px;
+}
+
+.bed-dtls ul li:nth-child(1) {
+    border-right: 2px solid #ccc;
+}
+
+.bed-dtls ul li:nth-child(2) {
+    border-right: 2px solid #ccc;
+}
+
+.meal {
+    padding: 0px 10px;
+    margin-bottom: 35px;
+}
+
+.panel-group .panel {
+    border-radius: 0;
+    box-shadow: none;
+    border-color: #EEEEEE;
+}
+
+.panel-default > .panel-heading {
+    padding: 0;
+    border-radius: 0;
+    color: #212121;
+    background-color: #FAFAFA;
+    border-color: #EEEEEE;
+}
+
+.panel-title {
+    font-size: 14px;
+}
+
+.panel-title > a {
+	font-size: 20px;
+    background: #e8e7e7;
+    border-radius: 5px;
+    display: block;
+    padding: 15px;
+    text-decoration: none;
+    color: #0056b3;
+}
+
+.tab-section {
+    margin-top: 15px;
+}
+
+.more-less {
+    float: right;
+    color: #212121;
+}
+
+.panel-default > .panel-heading + .panel-collapse > .panel-body {
+    border-top-color: #EEEEEE;
+}
+
+i.more-less.fa {
+    position: relative;
+    top: -5px;
+    background: #2553a3;
+    color: #fff;
+    font-size: 16px;
+    padding: 6px;
+    border-radius: 5px;
+}
+.flight-img {
+    border: 1px solid #ccc;
+    width: 80px;
+    margin-right: 10px;
+}
+ul.Inclusions-text {
+    font-size: 22px;
+    font-weight: 500;
+}
+.days-btn {
+    display: flex;
+    margin-bottom: 20px;
+    justify-content: space-between;
+}
+.days-btn a {
+    background: #2553a3;
+    color: #fff;
+    padding: 0px 10px;
+    border-radius: 25px;
+}
+.days-btn a:hover{
+	text-decoration: none;
+}
+.days-plan li:after {
+    content: '';
+    background: #7a7879;
+    position: absolute;
+    width: 1px;
+    top: 0;
+    bottom: 0;
+    height: 100%;
+    left: 6px;
+}
+ul.days-plan {
+    position: relative;
+    list-style: none;
+}
+.day-count {
+    background: #fff;
+    width: 200px;
+    border-radius: 40px;
+    margin: 30px 0;
+    position: relative;
+    left: -60px;
+    z-index: 999;
+    box-shadow: 3px 1px 18px -2px rgba(0,0,0,0.75);
+}
+.day-count .days{
+     font-size: 12px;
+    text-align: center;
+    color: #fff;
+    background: #7a7879;
+    width: 55px;
+    border-radius: 50%;
+    height: 55px;
+    padding-top: 19px;
+}
+.day-count p{
+    font-weight: 700;
+    margin: 0;
+    font-size: 12px;
+    color: #f3f2f3;
+}
+.day-dinner p{
+    color: #ffcf0f;
+}
+.day-count img {
+    width: 30px;
+    margin: 7px 7px 0;
+}
+
+@media screen and (max-width: 767px){
+    .day-count {
+    left: -50px;
+}
+}

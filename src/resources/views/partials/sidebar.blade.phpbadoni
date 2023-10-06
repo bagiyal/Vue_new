@@ -1,0 +1,314 @@
+@inject('request', 'Illuminate\Http\Request')
+<!-- Left side column. contains the sidebar -->
+<aside class="main-sidebar" style="width: 5% !important;margin-top: 8.5%;background-image:url({{asset("uploads/dashboard_resources/ItenararyBackground.png")}}">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar" style="margin-top: -51%">
+        <ul class="sidebar-menu">
+
+            <li>
+                <a href="{{ url('/') }}">
+                    <img src="{{asset("uploads/dashboard_resources/dashboard_Icon.png")}}" style="height: 35px;">
+                    <span class="title" style="margin-left: 1%; padding-top: 25%; height: 59px;">@lang('quickadmin.qa_dashboard')</span>
+                </a>
+            </li>
+
+            <li class="treeview" v-if="$can('user_management_access')">
+                <a href="#">
+                    <img src="{{asset("uploads/dashboard_resources/usermanager.png")}}" style="height: 35px">
+                    <span style="margin-left: 20%; padding-top: 25%; height: 59px;z-index: 1;">@lang('quickadmin.user-management.title')</span>
+                    {{--                    <span class="pull-right-container" style="margin-top: -8%">--}}
+                    {{--                       <i class="fa fa-angle-right" aria-hidden="true"></i>--}}
+                    {{--                    </span>--}}
+                </a>
+                <ul class="treeview-menu"  style="margin-left: 23%; padding-top: 25%;">
+                    <li v-if="$can('permission_access')">
+                        <router-link :to="{ name: 'permissions.index' }">
+                            <img src="{{asset("uploads/dashboard_resources/permission.png")}}" style="height: 35px;">
+                            <span>@lang('quickadmin.permissions.title')</span>
+                        </router-link>
+                    </li>
+                    <li v-if="$can('role_access')">
+                        <router-link :to="{ name: 'roles.index' }">
+                            <img src="{{asset("uploads/dashboard_resources/roles.png")}}" style="height: 35px;">
+                            <span>@lang('quickadmin.roles.title')</span>
+                        </router-link>
+                    </li>
+                    <li v-if="$can('user_access')">
+                        <router-link :to="{ name: 'users.index' }">
+                            <img src="{{asset("uploads/dashboard_resources/user.png")}}" style="height: 35px;">
+                            <span>@lang('quickadmin.users.title')</span>
+                        </router-link>
+                    </li>
+                    <li v-if="$can('user_action_access')">
+                        <router-link :to="{ name: 'user_actions.index' }">
+                            <img src="{{asset("uploads/dashboard_resources/useraction.png")}}" style="height: 35px;">
+                            <span>@lang('quickadmin.user-actions.title')</span>
+                        </router-link>
+                    </li>
+                    <li v-if="$can('team_access')">
+                        <router-link :to="{ name: 'teams.index' }">
+                            <img src="{{asset("uploads/dashboard_resources/team.png")}}" style="height: 35px;">
+                            <span>@lang('quickadmin.teams.title')</span>
+                        </router-link>
+                    </li>
+                    <li v-if="$can('customer_access')">
+                        <router-link :to="{ name: 'customers.index' }">
+                            <i class="fa fa-user"></i>
+                            <span>@lang('quickadmin.customer.title')</span>
+                        </router-link>
+                    </li>
+                </ul>
+            </li>
+            <li v-if="$can('country_access')">
+                <router-link :to="{ name: 'countries.index' }">
+                    <img src="{{asset("uploads/dashboard_resources/country.png")}}" style="height: 35px;">
+                    <span  class="title" style="margin-left: 1%; padding-top: 25%; height: 59px;">@lang('quickadmin.country.title')</span>
+                </router-link>
+            </li>
+            {{--            <li v-if="$can('country_access')" >--}}
+            {{--                <router-link :to="{ name: 'reward.reward' }">--}}
+            {{--                    <img src="{{asset("uploads/dashboard_resources/country.png")}}" style="height: 35px;">--}}
+            {{--                    <span>@lang('quickadmin.reward.title')</span>--}}
+            {{--                </router-link>--}}
+            {{--            </li>--}}
+            {{--            <li>--}}
+            {{--                <a href="{{ url('/') }}">--}}
+            {{--                    <img src="{{asset("uploads/dashboard_resources/dashboard_Icon.png")}}" style="height: 35px;">--}}
+            {{--                    <span class="title">@lang('quickadmin.qa_dashboard')</span>--}}
+            {{--                </a>--}}
+            {{--            </li>--}}
+            <li v-if="$can('state_access')">
+                <router-link :to="{ name: 'states.index' }">
+                    <img src="{{asset("uploads/dashboard_resources/state.png")}}" style="height: 35px;">
+                    <span style="margin-left: 1%; padding-top: 25%; height: 59px;">@lang('quickadmin.state.title')</span>
+                </router-link>
+            </li>
+            <li v-if="$can('city_access')">
+                <router-link :to="{ name: 'cities.index' }">
+                    <img src="{{asset("uploads/dashboard_resources/city.png")}}" style="height: 35px;">
+                    <span style="margin-left: 1%; padding-top: 25%; height: 59px;">@lang('quickadmin.city.title')</span>
+                </router-link>
+            </li>
+            @if(auth()->user()->id=='1')
+                <li v-if="$can('place_access')">
+                    <router-link :to="{ name: 'places.index' }">
+                        <img src="{{asset("uploads/dashboard_resources/place.png")}}" style="height: 35px;">
+                        <span style="margin-left: 1%; padding-top: 25%; height: 59px;">@lang('quickadmin.place.title')</span>
+                    </router-link>
+                </li>
+            @endif
+            <li v-if="$can('accommodation_access')">
+                <router-link :to="{ name: 'accommodations.index' }">
+                    <img src="{{asset("uploads/dashboard_resources/accomadation.png")}}" style="height: 35px;">
+                    <span style="margin-left: 1%; padding-top: 25%; height: 59px;">@lang('quickadmin.accommodation.title')</span>
+                </router-link>
+            </li>
+            <li v-if="$can('exhibitor_access')">
+                <router-link :to="{ name: 'exhibitors.index' }">
+                    <img src="{{asset("uploads/dashboard_resources/exhibitor.png")}}" style="height: 35px;">
+                    <span style="margin-left: 1%; padding-top: 25%; height: 59px;">@lang('quickadmin.exhibitors.title')</span>
+                </router-link>
+            </li>
+            <li v-if="$can('field_operator_access')">
+                <router-link :to="{ name: 'field_operators.index' }">
+                    <img src="{{asset("uploads/dashboard_resources/fieldoperator.png")}}" style="height: 35px;">
+                    <span style="margin-left: 1%; padding-top: 25%; height: 59px;">@lang('quickadmin.field-operator.title')</span>
+                </router-link>
+            </li>
+            <li v-if="$can('room_access')">
+                <router-link :to="{ name: 'rooms.index' }">
+                    <img src="{{asset("uploads/dashboard_resources/rooms.png")}}" style="height: 35px;">
+                    <span style="margin-left: 1%; padding-top: 25%; height: 59px;">@lang('quickadmin.rooms.title')</span>
+                </router-link>
+            </li>
+            <li class="treeview" v-if="$can('lead_access')">
+                <a href="#">
+                    <img src="{{asset("uploads/dashboard_resources/usermanager.png")}}" style="height: 35px;">
+                    <span style="margin-left: 20%; padding-top: 25%; height: 59px;z-index: 1;">Leads</span>
+                    {{--                    <span class="pull-right-container" style="margin-top: -5%">--}}
+                    {{--                       <i class="fa fa-angle-right" aria-hidden="true"></i>--}}
+                    {{--                    </span>--}}
+                </a>
+                <ul class="treeview-menu" style="margin-left: 23%; padding-top: 25%;">
+                    <li v-if="$can('lead_access')">
+                        <router-link :to="{ name: 'leads.create' }">
+                            <img src="{{asset("uploads/dashboard_resources/Lead_Icon.png")}}" style="height: 35px;">
+                            <span>Create Lead</span>
+                        </router-link>
+                    </li>
+                    <li v-if="$can('lead_access')">
+                        <router-link :to="{ name: 'leads.index' }">
+                            <img src="{{asset("uploads/dashboard_resources/Lead_Icon.png")}}" style="height: 35px;">
+                            <span>My Leads</span>
+                        </router-link>
+                    </li>
+                    <li v-if="$can('lead_access')">
+                        <router-link :to="{ name: 'leads.newleads' }">
+                            <img src="{{asset("uploads/dashboard_resources/Lead_Icon.png")}}" style="height: 35px;">
+                            <span>New Leads</span>
+                        </router-link>
+                    </li>
+
+                </ul>
+            </li>
+
+            <li v-if="$can('query_access')">
+                <router-link :to="{ name: 'queries.index' }">
+                    <img src="{{asset("uploads/dashboard_resources/Query_Icon.png")}}" style="height: 35px;">
+                    <span style="margin-left: 1%; padding-top: 25%; height: 59px;">@lang('quickadmin.query.title')</span>
+                </router-link>
+            </li>
+
+
+            {{--            <li v-if="$can('lead_access')">--}}
+            {{--                <router-link :to="{ name: 'leads.index' }">--}}
+            {{--                    <img src="{{asset("uploads/dashboard_resources/Lead_Icon.png")}}" style="height: 35px;">--}}
+            {{--                    <span>@lang('quickadmin.leads.title')</span>--}}
+            {{--                </router-link>--}}
+            {{--            </li>--}}
+
+
+            <li v-if="$can('booking_access')">
+                <router-link :to="{ name: 'bookings.index' }">
+                    <img src="{{asset("uploads/dashboard_resources/booking.png")}}" style="height: 35px;">
+                    <span style="margin-left: 1%; padding-top: 25%; height: 59px;">@lang('quickadmin.booking.title')</span>
+                </router-link>
+            </li>
+            <li v-if="$can('group_access')">
+                <router-link :to="{ name: 'groups.index' }">
+                    <img src="{{asset("uploads/dashboard_resources/Group_Icon.png")}}" style="height: 35px;">
+                    <span style="margin-left: 1%; padding-top: 25%; height: 59px;">@lang('quickadmin.group.title')</span>
+                </router-link>
+            </li>
+            {{--{{auth()->user()->id}}--}}
+            @if(auth()->user()->id=='1')
+                <li v-if="$can('tour_access')">
+                    <router-link :to="{ name: 'tours.index' }">
+                        <img src="{{asset("uploads/dashboard_resources/tour.png")}}" style="height: 35px;">
+                        <span style="margin-left: 1%; padding-top: 25%; height: 59px;">@lang('quickadmin.tour.title')</span>
+                    </router-link>
+                </li>
+            @endif
+
+            <li v-if="$can('driver_access')">
+                <router-link :to="{ name: 'travellers.index' }">
+                    <i class="fa fa-gears"></i>
+                    <span>@lang('quickadmin.travellers.title')</span>
+                </router-link>
+            </li>
+            <li v-if="$can('task_access')">
+                <router-link :to="{ name: 'tasks.index' }">
+                    <i class="fa fa-gears"></i>
+                    <span>@lang('quickadmin.task.title')</span>
+                </router-link>
+            </li>
+            <li v-if="$can('driver_access')">
+                <router-link :to="{ name: 'drivers.index' }">
+                    <img src="{{asset("uploads/dashboard_resources/driver.png")}}" style="height: 35px;">
+                    <span style="margin-left: 1%; padding-top: 25%; height: 59px;">@lang('quickadmin.drivers.title')</span>
+                </router-link>
+            </li>
+            <li class="treeview" v-if="$can('field_roal_access')">
+                <a href="#">
+                    <img src="{{asset("uploads/dashboard_resources/fieldroles.png")}}" style="height: 35px;">
+                    <span style="margin-left: 20%; padding-top: 25%; height: 59px;z-index: 1;">@lang('quickadmin.field-roals.title')</span>
+                    {{--                    <span class="pull-right-container" style="margin-top: -5%">--}}
+                    {{--                       <i class="fa fa-angle-right" aria-hidden="true"></i>--}}
+                    {{--                    </span>--}}
+                </a>
+                <ul class="treeview-menu" style="margin-left: 23%; padding-top: 25%;">
+                    <li v-if="$can('tour_manager_access')">
+                        <router-link :to="{ name: 'tour_managers.index' }">
+                            <img src="{{asset("uploads/dashboard_resources/tourman.png")}}" style="height: 35px;border-radius:20px">
+                            <span>@lang('quickadmin.tour-manager.title')</span>
+                        </router-link>
+                    </li>
+                    <li v-if="$can('guide_access')">
+                        <router-link :to="{ name: 'guides.index' }">
+                            <img src="{{asset("uploads/dashboard_resources/guideroles.png")}}" style="height: 35px;">
+                            <span>@lang('quickadmin.guide.title')</span>
+                        </router-link>
+                    </li>
+                    <li v-if="$can('activities_handler_access')">
+                        <router-link :to="{ name: 'activities_handlers.index' }">
+                            <img src="{{asset("uploads/dashboard_resources/supplieritinerarydown.png")}}" style="height: 35px;">
+                            <span>@lang('quickadmin.activities-handler.title')</span>
+                        </router-link>
+                    </li>
+                    <li v-if="$can('driver_role_access')">
+                        <router-link :to="{ name: 'driver_roles.index' }">
+                            <img src="{{asset("uploads/dashboard_resources/driverRoles.png")}}" style="height: 35px;">
+                            <span>@lang('quickadmin.driver-role.title')</span>
+                        </router-link>
+                    </li>
+                </ul>
+            </li>
+            <li class="treeview" v-if="$can('basic_crm_access')">
+                <a href="#">
+                    <img src="{{asset("uploads/dashboard_resources/basicCRM.png")}}" style="height: 35px;">
+                    <span style="margin-left: 20%; padding-top: 25%; height: 59px;z-index: 1;">@lang('quickadmin.basic-crm.title')</span>
+                    {{--                    <span class="pull-right-container" style="margin-top: -5%">--}}
+                    {{--                        <i class="fa fa-angle-right" aria-hidden="true"></i>--}}
+                    {{--                    </span>--}}
+                </a>
+                <ul class="treeview-menu" style="margin-left: 23%; padding-top: 25%;">
+                    <li v-if="$can('crm_status_access')">
+                        <router-link :to="{ name: 'crm_statuses.index' }">
+                            <img src="{{asset("uploads/dashboard_resources/status.png")}}" style="height: 35px;">
+                            <span>@lang('quickadmin.crm-statuses.title')</span>
+                        </router-link>
+                    </li>
+                    <li v-if="$can('crm_customer_access')">
+                        <router-link :to="{ name: 'crm_customers.index' }">
+                            <img src="{{asset("uploads/dashboard_resources/customer.png")}}" style="height: 35px;">
+                            <span>@lang('quickadmin.crm-customers.title')</span>
+                        </router-link>
+                    </li>
+                    <li v-if="$can('crm_note_access')">
+                        <router-link :to="{ name: 'crm_notes.index' }">
+                            <img src="{{asset("uploads/dashboard_resources/notes.png")}}" style="height: 35px;">
+                            <span>@lang('quickadmin.crm-notes.title')</span>
+                        </router-link>
+                    </li>
+                    <li v-if="$can('crm_document_access')">
+                        <router-link :to="{ name: 'crm_documents.index' }">
+                            <img src="{{asset("uploads/dashboard_resources/documents.png")}}" style="height: 35px;">
+                            <span>@lang('quickadmin.crm-documents.title')</span>
+                        </router-link>
+                    </li>
+                </ul>
+            </li>
+            <li class="treeview" v-if="$can('faq_management_access')">
+                <a href="#">
+                    <img src="{{asset("uploads/dashboard_resources/FAQmanagement.png")}}" style="height: 35px;">
+                    <span style="margin-left: 20%; padding-top: 25%; height: 59px;z-index: 1;">@lang('quickadmin.faq-management.title')</span>
+                    {{--                    <span class="pull-right-container" style="margin-top: -5%">--}}
+                    {{--                       <i class="fa fa-angle-right" aria-hidden="true"></i>--}}
+                    {{--                    </span>--}}
+                </a>
+                <ul class="treeview-menu" style="margin-left: 23%; padding-top: 25%;">
+                    <li v-if="$can('faq_category_access')">
+                        <router-link :to="{ name: 'faq_categories.index' }">
+                            <img src="{{asset("uploads/dashboard_resources/category.png")}}" style="height: 35px;">
+                            <span>@lang('quickadmin.faq-categories.title')</span>
+                        </router-link>
+                    </li>
+                    <li v-if="$can('faq_question_access')">
+                        <router-link :to="{ name: 'faq_questions.index' }">
+                            <img src="{{asset("uploads/dashboard_resources/question.png")}}" style="height: 35px;">
+                            <span>@lang('quickadmin.faq-questions.title')</span>
+                        </router-link>
+                    </li>
+                </ul>
+            </li>
+
+
+            <li>
+                <router-link :to="{ name: 'auth.change_password' }">
+                    <img src="{{asset("uploads/dashboard_resources/changepassword.png")}}" style="height: 35px;">
+                    <span class="title" style="margin-left: 1%; padding-top: 25%; height: 59px;">@lang('quickadmin.qa_change_password')</span>
+                </router-link>
+            </li>
+        </ul>
+    </section>
+</aside>

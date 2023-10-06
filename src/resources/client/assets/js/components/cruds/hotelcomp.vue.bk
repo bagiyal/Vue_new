@@ -1,0 +1,874 @@
+<template>
+    <div>
+        <form   id="hotel_msform" style="width: 80%;margin-top: -60px;margin-bottom: 300px;">
+            <button style="background-color: white;padding-left: 30px;padding-right: 30px;margin-left: 630px;border:0;border-radius: 15px;box-shadow: 4px 3px 7px 0px grey;font-size: 12px;margin-top: 10px;margin-bottom: 15px">Send Quotes<span><img src="./dashboard_resources/dropdown11.png"></span></button>        <!-- progressbar -->
+
+
+
+            <ul  id="hotel_progressbar" style="list-style: none;margin-left:20px">
+                <li  v-for="(loc,index) in location" :id="'hotelli'+index"  :class="[hotelli=='hotelli'+index?'active':'']" >
+                    <span style="font-size: 14px;color:grey">{{loc.name}}</span></li>
+                <!--        <li><span style="font-size: 14px;color:grey">Agra</span></li>-->
+                <!--        <li><span style="font-size: 14px;color:grey">Udaipur</span></li>-->
+                <!--        <li><span style="font-size: 14px;color:grey">Jaipur</span></li>-->
+                <!--        <li><span style="font-size: 14px;color:grey">Jodhpur</span></li>-->
+            </ul>
+            <span style="margin-left: -470px">
+                <button style="background-color:royalblue;font-size: 10px;border: 0;border-radius: 0px 10px 10px 0px;color:white;font-size: 12px;">July 15, 2019 - July 17, 2019</button></span>
+            <!-- fieldsets -->
+            <fieldset v-for="(loc,index) in location"  :id="'hotel' + index"  >
+                <div class="fluid-container" style="margin-left: -30px;position: relative">
+                    <div class="row">
+                        <div class="col-6" >
+                            <div  style="text-align: right;margin-left:305px;margin-bottom: 5px">OPTION</div>
+                            <div class="card pt-3 pb-3 ml-5" style="width: 330px ; position: relative">
+                                <div id="box"></div><span style="background-color:#417CFF;width: 20px;color:white;margin-top:-43px;margin-left:305px;font-size:12px">1</span>
+                                <span style="color:darkgrey;margin-left:10px;text-align: left"><span><img src="./dashboard_resources/hotel name_icon.png" style="height:30px"></span>Hotel Name</span>
+                                <span>
+                                {{callhotel()}}
+                                    <!--                                {{loc.id}}-->
+                                    <!--                                <input type="text" style="width: 95%;margin-left:10px;margin-right: 10px;border:0px;border:solid gainsboro 1px;border-radius: 2px;" value="The Musica by Ziﬀy Homes">-->
+                                <v-select v-model="hotelselect[loc.id]"
+                                          name="addhotel"
+                                          label="title"
+                                          @input="addtohotel(index,loc.id)"
+                                          :value="non"
+                                          :options=hoteloptions[loc.id]
+
+                                /></span>
+                                <!--                                {{hoteloptions}}-->
+                                <!--                                <img src="./dashboard_resources/edit.png" style="left: 290px; position: absolute; top: 58px; color: darkgrey; height: 18px; width: 30px;">-->
+                                <img src="./dashboard_resources/Screenshot (2).png" style="height:100px;width: 220px;margin-left: 53px;margin-top: 15px;border-radius: 5px">
+                                <div class="row mt-3 ml-2 pt-2 pb-2" style="width: 95%;position: relative;border-top: dotted darkgrey 2px;border-bottom: dotted darkgrey 2px">
+                                    <div class="col-6 " style="margin-left: -20px">
+                                        <span style="color:darkgrey;margin-left: -10px">Check-in</span>
+                                    </div>
+                                    <div class="col-6">
+                                        <span style="color:darkgrey;position: absolute;left:75px;">Check-out</span>
+                                    </div>
+
+                                    <div class="col-6" style="margin-left: -20px">
+                                    <span style="margin-left: 25px">
+                                        <p style="position: absolute; left: 35px; top: -2px;">
+                                         <date-picker v-if="hotelselect[loc.id]"
+                                                 v-model="local_tour[index]['hotel']['checkin']"
+                                                 :config="$root.dpconfigTime"
+                                                 name="driver_pickup_date_time"
+
+
+                                                 style="width: 65px;border: 0;"
+                                                 class="pl-1 pr-1"
+                                         >
+                                            </date-picker>
+                                        </p>
+                                        <img src="./dashboard_resources/edit.png" style=" margin-left:43px;color:darkgrey;height: 20px;width: 30px">
+                                    </span>
+                                    </div>
+                                    <div class="col-6">
+                                    <span style="margin-left: 85px;"><p style="position: absolute; left: 75px; top: -2px;">
+                                          <date-picker v-if="hotelselect[loc.id]"
+                                                       v-model="local_tour[index]['hotel']['checkout']"
+                                                       :config="$root.dpconfigTime"
+                                                       name="driver_pickup_date_time"
+
+
+                                                       style="width: 65px;border: 0;"
+                                                       class="pl-1 pr-1"
+                                          >
+                                            </date-picker>
+
+                                    </p> <img src="./dashboard_resources/edit.png" style="position: absolute; top: 2px; left: 210px; margin-left: -65px; color: darkgrey; height: 20px; width: 30px;"></span>
+                                    </div>
+                                </div>
+                                <div class="row text-center">
+                                    <div class="col-12"><p style="color:darkgrey">Room Type
+                                    </p><p style="margin-top: -10px; margin-bottom: -10px;">
+                                        <input v-if="hotelselect[loc.id]" v-model="local_tour[index]['hotel']['roomtype']" style="width: 75px;text-align: center;border: 0;" placeholder="Deluxe">
+
+                                    </p></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-6" style="position: absolute;left:400px">
+                            <div style="text-align: right;margin-left:253px;margin-bottom: 5px;">OPTION</div>
+                            <div class="card pt-3 pb-3" style="width: 330px ;margin-left:-20px">
+                                <div id="box2"></div><span style="background-color:#417CFF;width: 20px;color:white;margin-top:-43px;margin-left:305px;font-size:12px">2</span>
+                                <span style="color:darkgrey;margin-left:10px;text-align: left"><span><img src="./dashboard_resources/hotel name_icon.png" style="height:30px"></span>Hotel Name</span>
+                                <span>
+
+<!--                                <input type="text" style="width: 95%;margin-left:10px;margin-right: 10px;border:0px;border:solid gainsboro 1px;border-radius: 2px;" value="Hotel Name">-->
+                                   <v-select v-model="hotelselect2[loc.id]"
+                                             name="addhotel"
+                                             label="title"
+                                             @input="addtohotel2(index,loc.id)"
+                                             :value="non"
+                                             :options=hoteloptions[loc.id]
+
+                                   />
+                                </span>
+
+                                <div class="row mt-3 ml-2 pt-2 pb-2" style="width: 95%;position: relative;border-top: dotted darkgrey 2px;border-bottom: dotted darkgrey 2px">
+                                    <div class="col-6 " style="margin-left: -20px">
+                                        <span style="color: darkgrey; margin-left: -10px;">Check-in</span>
+                                    </div>
+                                    <div class="col-6">
+                                        <span style="color: darkgrey; position: absolute; left: 75px;">Check-out</span>
+                                    </div>
+
+                                    <div class="col-6" style="margin-left: -20px">
+                                    <span style="margin-left: 25px;">
+                                      <p style="position: absolute; left: 35px; top: -2px;">
+                                          <date-picker v-if="hotelselect2[loc.id]"
+                                                       v-model="local_tour[index]['hotel2']['checkin']"
+                                                       :config="$root.dpconfigTime"
+                                                       name="driver_pickup_date_time"
+
+
+                                                       style="width: 65px;border: 0;"
+                                                       class="pl-1 pr-1"
+                                          >
+                                            </date-picker>
+                                    </p>
+
+                                        <img src="./dashboard_resources/edit.png" style=" margin-left:54px;color:darkgrey;height: 20px;width: 30px"></span>
+                                    </div>
+                                    <div class="col-6">
+                                    <span style="margin-left: 85px;"><p style="position: absolute; left: 75px; top: -2px;">
+
+                                           <date-picker v-if="hotelselect2[loc.id]"
+                                                        v-model="local_tour[index]['hotel2']['checkout']"
+                                                        :config="$root.dpconfigTime"
+                                                        name="driver_pickup_date_time"
+
+
+                                                        style="width: 65px;border: 0;"
+                                                        class="pl-1 pr-1"
+                                           >
+                                            </date-picker>
+
+                                    </p> <img src="./dashboard_resources/edit.png" style="position: absolute; top: 2px; left: 200px; margin-left: -65px; color: darkgrey; height: 20px; width: 30px;"></span>
+                                    </div>
+                                </div>
+                                <div class="row text-center">
+                                    <div class="col-12"><p style="color:darkgrey">Room Type
+                                    </p><p style="margin-top: -10px; margin-bottom: -10px;">
+                                        <input v-if="hotelselect2[loc.id]" v-model="local_tour[index]['hotel2']['roomtype']" style="width: 75px;text-align: center;border: 0;" placeholder="Deluxe">
+
+                                    </p></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 text-left mt-3" style="margin-left: 43px">Special Instruction</div>
+                            <div class="col-12 text-left" style="margin-left: 43px">
+                                <input v-model="local_tour[index]['specinst']" type="text" style="width:400px;height: 100px;border: 0px;border:solid gainsboro 1px;border-radius: 3px"></div>
+                        </div>
+                        <div class="row mb-2 mt-2">
+                            <div class="col-12 text-left" style="margin-left: 43px">Meal Plan</div>
+                            <div class="col-12 text-left" style="margin-left: 43px">
+                                <select v-model="local_tour[index]['mealplan']">
+                                    <option value="MAP">MAP</option>
+                                    <option value="MAP">MAP</option>
+                                </select>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <input v-if="index > 0" type="button" name="previous" class="previous action-button" value="Previous" style="margin-left:575px" @click="changeviewback(index)" />
+                <input v-if="!(Number(index)+Number(1) == location.length)" type="button" name="next" class="next action-button" value="Next"  style="position: absolute;left: 715px;top: 570px;" @click="changeview(index)" />
+                <input v-if="Number(index)+Number(1) == location.length" type="button" name="next" class="next action-button" value="Day Plan "  style="    position: absolute;left: 715px;top: 570px" @click="changelevel(index)" />
+
+            </fieldset>
+
+        </form>
+    </div>
+</template>
+
+
+<script>
+    import DaysPlaceComponent from '../cruds/daysplaces'
+    //
+    export default{
+
+        data(){
+            return{
+                tour:[],
+                days:[],
+                objj:{},
+                temp:{},
+                defaultt:[],
+                localplace:{},
+                hotelselect:{},
+                hotelselect2:{},
+                hoteloptions:{},
+                non:[],
+                non2:[],
+                fs:false,
+                fs1:true,
+                flag:0,
+                local_tour:{},
+                hotelli:true,
+
+                // tt:[{"id":1,"title":"ffhjhj"}]
+            }
+
+        },
+
+        mounted(){
+
+            this.local_tour=this.tour_location;
+            for (var key in this.local_tour) {
+                // this.local_tour[key]['hotel'] =this.local_tour[key]['hotel'];
+                // this.local_tour[key]['hotel2']=this.local_tour[key]['hotel2'];
+
+                // this.hotelselect[this.local_tour[key]['id']]=this.local_tour[key]['hotel']['hotel_data'];
+                Object.assign(this.hotelselect[this.local_tour[key]['id']],this.local_tour[key]['hotel']['hotel_data'][0]);
+                // this.hotelselect[this.local_tour[key]['id']]={};
+                // Object.assign(this.hotelselect[this.local_tour[key]['id']],{"hello":""});
+
+                // this.hotelselect2[this.local_tour[key]['id']]=this.local_tour[key]['hotel2']['hotel_data'];
+                Object.assign(this.hotelselect2[this.local_tour[key]['id']],this.local_tour[key]['hotel2']['hotel_data'][0]);
+
+
+                // this.local_tour[key]['hotel'] ={'hotel_data':'','checkin':'','checkout':'','roomtype':''};
+                // this.local_tour[key]['hotel2'] = {'hotel_data':'','checkin':'','checkout':'','roomtype':''};
+                // this.local_tour[key]['specinst'] ='';
+                // this.local_tour[key]['mealplan'] ='';
+
+
+
+            }
+
+
+            $(function() {
+                // alert("inn");
+//jQuery time
+                var current_fs, next_fs, previous_fs; //fieldsets
+                var left, opacity, scale; //fieldset properties which we will animate
+                var animating; //flag to prevent quick multi-click glitches
+
+                $(".next").click(function(){
+                    // alert("in");
+                    if(animating) return false;
+                    animating = true;
+
+                    current_fs = $(this).parent();
+
+                    // alert(current_fs);
+                    next_fs = $(this).parent().next();
+
+                    //activate next step on progressbar using the index of next_fs
+                    //    $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
+                    $("#hotel_progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
+
+                    //show the next fieldset
+                    next_fs.show();
+                    // hide the current fieldset with style
+                    current_fs.animate({opacity: 0}, {
+                        step: function(now, mx) {
+                            //as the opacity of current_fs reduces to 0 - stored in "now"
+                            //1. scale current_fs down to 80%
+                            scale = 1 - (1 - now) * 0.2;
+                            //2. bring next_fs from the right(50%)
+                            left = (now * 50)+"%";
+                            //3. increase opacity of next_fs to 1 as it moves in
+                            opacity = 1 - now;
+                            current_fs.css({'transform': 'scale('+scale+')'});
+                            next_fs.css({'left': left, 'opacity': opacity});
+                        },
+                        duration: 800,
+                        complete: function(){
+                            current_fs.hide();
+                            animating = false;
+                        },
+                        //this comes from the custom easing plugin
+                        easing: 'easeInOutBack'
+                    });
+                });
+
+                $(".previous").click(function(){
+                    if(animating) return false;
+                    animating = true;
+
+                    current_fs = $(this).parent();
+                    previous_fs = $(this).parent().prev();
+
+                    //de-activate current step on progressbar
+                    //  $("#progressbar li").eq($("fieldset").index(current_fs)).removeClass("active");
+                    $("#hotel_progressbar li").eq($("fieldset").index(current_fs)).removeClass("active");
+
+                    //show the previous fieldset
+                    previous_fs.show();
+                    //hide the current fieldset with style
+                    current_fs.animate({opacity: 0}, {
+                        step: function(now, mx) {
+                            //as the opacity of current_fs reduces to 0 - stored in "now"
+                            //1. scale previous_fs from 80% to 100%
+                            scale = 0.8 + (1 - now) * 0.2;
+                            //2. take current_fs to the right(50%) - from 0%
+                            left = ((1-now) * 50)+"%";
+                            //3. increase opacity of previous_fs to 1 as it moves in
+                            opacity = 1 - now;
+                            current_fs.css({'left': left});
+                            previous_fs.css({'transform': 'scale('+scale+')', 'opacity': opacity});
+                        },
+                        duration: 800,
+                        complete: function(){
+                            current_fs.hide();
+                            animating = false;
+                        },
+                        //this comes from the custom easing plugin
+                        easing: 'easeInOutBack'
+                    });
+                });
+
+                $(".submit").click(function(){
+                    return false;
+                })
+
+            });
+
+
+
+            jQuery.easing.jswing=jQuery.easing.swing;jQuery.extend(jQuery.easing,{def:"easeOutQuad",swing:function(e,f,a,h,g){return jQuery.easing[jQuery.easing.def](e,f,a,h,g)},easeInQuad:function(e,f,a,h,g){return h*(f/=g)*f+a},easeOutQuad:function(e,f,a,h,g){return -h*(f/=g)*(f-2)+a},easeInOutQuad:function(e,f,a,h,g){if((f/=g/2)<1){return h/2*f*f+a}return -h/2*((--f)*(f-2)-1)+a},easeInCubic:function(e,f,a,h,g){return h*(f/=g)*f*f+a},easeOutCubic:function(e,f,a,h,g){return h*((f=f/g-1)*f*f+1)+a},easeInOutCubic:function(e,f,a,h,g){if((f/=g/2)<1){return h/2*f*f*f+a}return h/2*((f-=2)*f*f+2)+a},easeInQuart:function(e,f,a,h,g){return h*(f/=g)*f*f*f+a},easeOutQuart:function(e,f,a,h,g){return -h*((f=f/g-1)*f*f*f-1)+a},easeInOutQuart:function(e,f,a,h,g){if((f/=g/2)<1){return h/2*f*f*f*f+a}return -h/2*((f-=2)*f*f*f-2)+a},easeInQuint:function(e,f,a,h,g){return h*(f/=g)*f*f*f*f+a},easeOutQuint:function(e,f,a,h,g){return h*((f=f/g-1)*f*f*f*f+1)+a},easeInOutQuint:function(e,f,a,h,g){if((f/=g/2)<1){return h/2*f*f*f*f*f+a}return h/2*((f-=2)*f*f*f*f+2)+a},easeInSine:function(e,f,a,h,g){return -h*Math.cos(f/g*(Math.PI/2))+h+a},easeOutSine:function(e,f,a,h,g){return h*Math.sin(f/g*(Math.PI/2))+a},easeInOutSine:function(e,f,a,h,g){return -h/2*(Math.cos(Math.PI*f/g)-1)+a},easeInExpo:function(e,f,a,h,g){return(f==0)?a:h*Math.pow(2,10*(f/g-1))+a},easeOutExpo:function(e,f,a,h,g){return(f==g)?a+h:h*(-Math.pow(2,-10*f/g)+1)+a},easeInOutExpo:function(e,f,a,h,g){if(f==0){return a}if(f==g){return a+h}if((f/=g/2)<1){return h/2*Math.pow(2,10*(f-1))+a}return h/2*(-Math.pow(2,-10*--f)+2)+a},easeInCirc:function(e,f,a,h,g){return -h*(Math.sqrt(1-(f/=g)*f)-1)+a},easeOutCirc:function(e,f,a,h,g){return h*Math.sqrt(1-(f=f/g-1)*f)+a},easeInOutCirc:function(e,f,a,h,g){if((f/=g/2)<1){return -h/2*(Math.sqrt(1-f*f)-1)+a}return h/2*(Math.sqrt(1-(f-=2)*f)+1)+a},easeInElastic:function(f,h,e,l,k){var i=1.70158;var j=0;var g=l;if(h==0){return e}if((h/=k)==1){return e+l}if(!j){j=k*0.3}if(g<Math.abs(l)){g=l;var i=j/4}else{var i=j/(2*Math.PI)*Math.asin(l/g)}return -(g*Math.pow(2,10*(h-=1))*Math.sin((h*k-i)*(2*Math.PI)/j))+e},easeOutElastic:function(f,h,e,l,k){var i=1.70158;var j=0;var g=l;if(h==0){return e}if((h/=k)==1){return e+l}if(!j){j=k*0.3}if(g<Math.abs(l)){g=l;var i=j/4}else{var i=j/(2*Math.PI)*Math.asin(l/g)}return g*Math.pow(2,-10*h)*Math.sin((h*k-i)*(2*Math.PI)/j)+l+e},easeInOutElastic:function(f,h,e,l,k){var i=1.70158;var j=0;var g=l;if(h==0){return e}if((h/=k/2)==2){return e+l}if(!j){j=k*(0.3*1.5)}if(g<Math.abs(l)){g=l;var i=j/4}else{var i=j/(2*Math.PI)*Math.asin(l/g)}if(h<1){return -0.5*(g*Math.pow(2,10*(h-=1))*Math.sin((h*k-i)*(2*Math.PI)/j))+e}return g*Math.pow(2,-10*(h-=1))*Math.sin((h*k-i)*(2*Math.PI)/j)*0.5+l+e},easeInBack:function(e,f,a,i,h,g){if(g==undefined){g=1.70158}return i*(f/=h)*f*((g+1)*f-g)+a},easeOutBack:function(e,f,a,i,h,g){if(g==undefined){g=1.70158}return i*((f=f/h-1)*f*((g+1)*f+g)+1)+a},easeInOutBack:function(e,f,a,i,h,g){if(g==undefined){g=1.70158}if((f/=h/2)<1){return i/2*(f*f*(((g*=(1.525))+1)*f-g))+a}return i/2*((f-=2)*f*(((g*=(1.525))+1)*f+g)+2)+a},easeInBounce:function(e,f,a,h,g){return h-jQuery.easing.easeOutBounce(e,g-f,0,h,g)+a},easeOutBounce:function(e,f,a,h,g){if((f/=g)<(1/2.75)){return h*(7.5625*f*f)+a}else{if(f<(2/2.75)){return h*(7.5625*(f-=(1.5/2.75))*f+0.75)+a}else{if(f<(2.5/2.75)){return h*(7.5625*(f-=(2.25/2.75))*f+0.9375)+a}else{return h*(7.5625*(f-=(2.625/2.75))*f+0.984375)+a}}}},easeInOutBounce:function(e,f,a,h,g){if(f<g/2){return jQuery.easing.easeInBounce(e,f*2,0,h,g)*0.5+a}return jQuery.easing.easeOutBounce(e,f*2-g,0,h,g)*0.5+h*0.5+a}});
+
+        },
+        watch: {
+
+            //             'local_tour': function(newVal, oldVal) {
+            //
+            //     this.local_tour=this.local_tour;
+            //
+            //
+            // },
+            tour_location: {
+
+                handler(newval, oldVal){
+// console.log("deepwatch");
+// console.log(newval);
+                    this.local_tour=newval;
+                    // console.log(this.local_tour);
+
+                    for (var key in newval) {
+                        // this.local_tour[key]['hotel'] =this.local_tour[key]['hotel'];
+                        // this.local_tour[key]['hotel2']=this.local_tour[key]['hotel2'];
+                        // alert(this.local_tour[key]['hotel']['hotel_data'][0]);
+                        // this.hotelselect[this.local_tour[key]['id']]=this.local_tour[key]['hotel']['hotel_data'];
+
+                        // this.hotelselect[this.local_tour[key]['id']]={};
+                        Object.assign(this.hotelselect[this.local_tour[key]['id']],this.local_tour[key]['hotel']['hotel_data'][0]);
+
+                        // Object.assign(this.hotelselect[this.local_tour[key]['id']],{"hello":""});
+
+                        // this.hotelselect2[this.local_tour[key]['id']]=this.local_tour[key]['hotel2']['hotel_data'];
+                        Object.assign(this.hotelselect2[this.local_tour[key]['id']],this.local_tour[key]['hotel2']['hotel_data'][0]);
+                        // this.local_tour[key]['hotel'] ={'hotel_data':'','checkin':'','checkout':'','roomtype':''};
+                        // this.local_tour[key]['hotel2'] = {'hotel_data':'','checkin':'','checkout':'','roomtype':''};
+                        this.local_tour[key]['specinst'] ='';
+                        this.local_tour[key]['mealplan'] ='';
+
+
+
+                    }
+
+
+
+                },
+                deep: true
+
+
+            },
+
+
+
+
+            // 'tour_location': function(newVal, oldVal) {
+            //
+            //     this.local_tour=newVal;
+            //     console.log(this.local_tour);
+            //
+            //     for (var key in this.local_tour) {
+            //         // this.local_tour[key]['hotel'] =this.local_tour[key]['hotel'];
+            //         // this.local_tour[key]['hotel2']=this.local_tour[key]['hotel2'];
+            //         alert(this.local_tour[key]['hotel']['hotel_data'][0]);
+            //         // this.hotelselect[this.local_tour[key]['id']]=this.local_tour[key]['hotel']['hotel_data'];
+            //         Object.assign(this.hotelselect[this.local_tour[key]['id']],this.local_tour[key]['hotel']['hotel_data'][0]);
+            //         // this.hotelselect2[this.local_tour[key]['id']]=this.local_tour[key]['hotel2']['hotel_data'];
+            //         Object.assign(this.hotelselect2[this.local_tour[key]['id']],this.local_tour[key]['hotel2']['hotel_data'][0]);
+            //         // this.local_tour[key]['hotel'] ={'hotel_data':'','checkin':'','checkout':'','roomtype':''};
+            //         // this.local_tour[key]['hotel2'] = {'hotel_data':'','checkin':'','checkout':'','roomtype':''};
+            //         this.local_tour[key]['specinst'] ='';
+            //         this.local_tour[key]['mealplan'] ='';
+            //
+            //
+            //
+            //     }
+            // },
+            // deep: true,
+            'hotels': function(newVal, oldVal) {
+                // alert("f");
+                console.log("watch");
+                console.log('value changed from ' + oldVal + ' to ' + newVal);
+
+                this.callhotel();
+
+
+                // this.hotelset(this.location.id,this.hotels);
+            },
+            'location': function(newVal, oldVal) {
+                // alert("f");
+                console.log("watch");
+                console.log('value changed from ' + oldVal + ' to ' + newVal);
+
+                this.callhotel();
+this.hotelli='hotelli0';
+
+                // this.hotelset(this.location.id,this.hotels);
+            }
+
+
+
+
+        },
+        created(){
+
+
+        },
+
+        methods: {
+            changeview(index){
+
+                var id=Number(index)+Number(1);
+
+                $( "#hotel"+id ).show();
+                this.hotelli="hotelli"+id;
+
+
+                for( var i=0 ;i<this.location.length; i++){
+                    if(i!==id){
+
+                        $( "#hotel"+i ).hide();
+
+                    }
+                }
+            },
+            changeviewback(index){
+                var id=Number(index)-Number(1);
+
+                $( "#hotel"+id ).show();
+                this.hotelli="hotelli"+id;
+
+                for( var i=0 ;i<this.location.length; i++){
+                    if(i!==id){
+
+                        $( "#hotel"+i ).hide();
+
+                    }
+                }
+
+            },
+            changelevel(){
+
+this.$emit('showday');
+            },
+            run(){
+
+                console.log(this.objj)
+            },
+            callhotel(){
+
+
+                // alert("callhotel");
+                if(!_.isEmpty(this.location) && !_.isEmpty(this.hotels)){
+                    // alert("callhotel");
+                    this.location.forEach( (dataObj) => {
+
+                        // [(dataObj.id).split('-')[0]]
+                        this.hotelset(dataObj.id,this.hotels[(dataObj.id.split('-')[0])]);
+                    });
+                    this.flag=1;
+                }
+
+
+            },
+            hotelset(locationid,hotels){
+
+                // alert("hotel set");
+                console.log(locationid);
+                console.log(hotels);
+
+
+                if(this.hotelselect.hasOwnProperty(locationid)){
+
+                }
+                else{
+                    // this.hotelselect[locationid]={};
+                    Object.assign( this.hotelselect, {[locationid]: {}})
+
+                }
+                if(this.hotelselect2.hasOwnProperty(locationid)){
+
+                }
+                else{
+
+                    Object.assign( this.hotelselect2, {[locationid]: {}})
+
+                }
+
+
+
+                if (!_.isEmpty(hotels) && typeof hotels !== 'undefined') {
+
+                    console.log(hotels);
+                    console.log("jjjj");
+                    var hot = _.cloneDeep(hotels);
+                    //  this.hoteloptions={[locationid]:hot};
+                    console.log(hot);
+
+                    if(this.hoteloptions.hasOwnProperty(locationid)){
+
+                        this.hoteloptions[locationid]=hot
+                    }
+                    else {
+                        // this.hoteloptions[locationid]=hotels;
+                        Object.assign( this.hoteloptions, {[locationid]: hot})
+                    }
+                    // this.hoteloptions = {[locationid]: hot};
+                    // this.hoteloptions=Object.assign(this.hoteloptions,{[locationid]:hot});
+                    // this.hoteloptions=Object.assign({},this.hoteloptions);
+
+
+                }
+                // else if (typeof hotels !== 'undefined' && _.isEmpty(this.hoteloptions[locationid])) {
+                //     console.log("kkkk");
+                //     var hot = _.cloneDeep(hotels[locationid]);
+                //     this.hoteloptions = {[locationid]: hot};
+                // }
+
+
+
+
+
+
+                // this.hotelselect = {[locationid]: {}};
+                // if (!_.isEmpty(hotels) && typeof hotels !== 'undefined') {
+                //
+                //     console.log(hotels);
+                //     console.log("jjjj");
+                //     var hot = _.cloneDeep(hotels);
+                //     //  this.hoteloptions={[locationid]:hot};
+                //     console.log(hot);
+                //     //
+                //     this.hoteloptions = {[locationid]: hot};
+                //     // this.hoteloptions=Object.assign(this.hoteloptions,{[locationid]:hot});
+                //     // this.hoteloptions=Object.assign({},this.hoteloptions);
+                //
+                //
+                // }
+                // else if (typeof hotels !== 'undefined' && _.isEmpty(this.hoteloptions[locationid])) {
+                //     console.log("kkkk");
+                //     var hot = _.cloneDeep(hotels);
+                //     this.hoteloptions = {[locationid]: hot};
+                // }
+                console.log(this.hoteloptions);
+                console.log("iii");
+            },
+            preselect(a,b,locationid,place){
+
+
+                //         console.log(place);
+                if(_.isEmpty(this.localplace) && typeof place !== 'undefined'){
+                    // alert("test");
+                    var pla=_.cloneDeep(place);
+                    this.localplace[locationid]={[a]:pla};
+                    //var arr=_.clone(place);
+                    // this.localplace[locationid][a]=place;
+                    console.log("cloned");
+                    console.log(this.localplace);
+                }
+                else if(typeof place !== 'undefined' &&  _.isEmpty(this.localplace[locationid][a])){
+
+                    var pla= _.cloneDeep(place);
+                    this.localplace[locationid]={[a]:pla};
+                }
+
+
+
+
+
+                //     Object.freeze(this.defaultt);
+                console.log("before me"+this.temp);
+                console.log(this.temp);
+//alert("me");
+
+                if(_.isEmpty(this.objj)){
+                    // alert("me empty");
+
+                    this.days[a]=[{"id":1,
+                        "title":"Day at Leisure",
+                        "to_time":"",
+                        "from_time":"",
+                        "remark":""
+
+                    }];
+                    var day=a;
+
+                    this.temp[locationid]={};
+
+                    this.temp[locationid]['day-'+day]={'place':this.days[day]};
+                    this.objj = Object.assign(this.objj, this.temp);
+                    this.temp = Object.assign({}, {});
+                    //this.days=[];
+                    this.$emit('addplace',this.objj)
+                }
+                else {
+
+                    var day=a;
+//    alert("me empty2 ");
+                    //   console.log(this.objj[locationid]);
+                    if(_.isEmpty(this.objj[locationid]['day-'+day])){
+                        this.days[a]=[{"id":1,
+                            "title":"Day at Leisure",
+                            "to_time":"",
+                            "from_time":"",
+                            "remark":""
+
+                        }];
+                        // alert("me not else in");
+                        this.temp=Object.assign(this.temp,this.objj);
+                        this.temp[locationid]['day-'+day]={'place':this.days[day]};
+                        this.objj = Object.assign(this.objj, this.temp);
+                        this.temp = Object.assign({}, {});
+                        // this.days=[];
+                        this.$emit('addplace',this.objj)
+                    }
+                    else {
+
+
+                    }
+                    console.log("else me"+this.temp);
+                    console.log(this.temp);
+                }
+
+                return null;
+
+            },
+            remove(){
+                //  alert('hello');
+                this.$emit('delete', this.location.id)
+
+            },
+            // setday(day)
+            // {
+            //     this.days=day
+            //     console.log(this.days)
+            // },
+            addtohotel(index,location){
+
+
+                this.local_tour[index]["hotel"]['hotel_data']=[this.hotelselect[location]];
+
+
+
+                // Object.assign(this.local_tour[index],{["hotel"]:[this.hotelselect[location]]});
+                //  this.local_tour=_.cloneDeep(this.local_tour)
+
+            },
+            addtohotel2(index,location){
+
+
+
+                this.local_tour[index]["hotel2"]['hotel_data']=[this.hotelselect2[location]];
+
+
+
+
+                // Object.assign(this.local_tour[index],{["hotel2"]:[this.hotelselect2[location]]});
+                //
+                //  this.local_tour=_.cloneDeep(this.local_tour)
+
+
+
+
+            },
+            addtoplaces(day,locationid){
+                //      console.log(this.days[day]);
+                //    console.log(day);
+
+                //   var obj={'place': this.days[day]};
+// alert("dddddd");
+
+                if( this.objj.hasOwnProperty(locationid)){
+                    // alert("up");
+                    console.log(this.objj);
+                    if(this.objj[locationid].hasOwnProperty('day-'+day)){
+
+                        this.objj[locationid]['day-'+day].place=_.clone(this.days[day])
+
+                        //   console.log(this.days[day]);
+                        //      this.objj[locationid][day].place=[];
+                        //
+                        //        this.$set(this.objj[locationid][day], 'place', this.days[day]);
+                        console.log(this.objj);
+                    }
+                    else{
+                        // alert("in else");
+
+                        Object.assign( this.objj[locationid], {['day-'+day]: {'place':_.clone(this.days[day])}})
+                        // this.objj[locationid]={
+                        //     [day]: {'place':this.days[day]}
+                        // }
+                        // this.objj[locationid][day].place=[];
+                        // this.objj[locationid][day].place=this.days[day]
+                    }
+
+
+                    // this.objj[locationid].push(obj)
+
+                }
+                else {
+                    // alert("down");
+                    //    console.log(obj)
+
+                    // console.log({ [locationid]:obj })
+                    //      console.log(newob);
+                    this.temp[locationid]={};
+
+                    //  this.objj[locationid].push([day]);
+                    this.temp[locationid]['day-'+day]={'place':_.clone(this.days[day])};
+
+
+                    this.objj = Object.assign(this.objj, this.temp);
+                    //this.objj[locationid][day]=[];
+                    //   this.objj[locationid][day].place.push(this.days[day])
+                    console.log(this.objj)
+
+
+                }
+
+                //      console.log(this.objj)
+                this.$emit('addplace',this.objj)
+            }
+//             updatedays(){
+// //alert('hello');
+//                     this.$root.$emit(' dayupdate', this.location.id)
+//             },
+
+        },
+        // components: {DaysPlaceComponent},
+
+        props: ['location','hotels','tour_location','day']
+
+    }
+
+
+</script>
+
+<style scoped>
+
+    #hotel_msform{
+        width: 100px;
+        margin: 50px auto;
+        text-align: center;
+        position: relative;
+    }
+    #hotel_msform fieldset {
+        font-size: 16px;
+        border: 0 none;
+        border-radius: 3px;
+        /*box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);*/
+        padding: 20px 30px;
+        /*box-sizing: border-box;*/
+        width: 80%;
+        margin: 0 10%;
+        /*stacking fieldsets above each other*/
+        position: absolute;
+    }
+    #hotel_msform fieldset:not(:first-of-type) {
+        display: none;
+    }
+    #hotel_msform .action-button {
+        width: 100px;
+        background: #27AE60;
+        font-weight: bold;
+        color: white;
+        border: 0 none;
+        border-radius: 5px;
+        cursor: pointer;
+        padding: 10px 5px;
+        margin: 10px 5px;
+    }
+    #hotel_progressbar {
+        margin-bottom: 30px;
+        overflow: hidden;
+        /*CSS counters to number the steps*/
+        counter-reset: step;
+    }
+    #hotel_progressbar li {
+        list-style-type: block;
+        color: white;
+        text-transform: uppercase;
+        font-size: 9px;
+        width: 20.0%;
+        float: left;
+        position: relative;
+    }
+    #hotel_progressbar li:before {
+        content: counter(step);
+        counter-increment: step;
+        width: 20px;
+        line-height: 20px;
+        display: block;
+        font-size: 10px;
+        color: #333;
+        background: white;
+        border-radius: 3px;
+        margin: 0 auto 5px auto;
+    }
+    #hotel_progressbar li:after {
+        content: '';
+        width: 100%;
+        height: 2px;
+        background: white;
+        position: absolute;
+        left: -50%;
+        top: 9px;
+        color:black;
+        z-index: -1; /*put it behind the numbers*/
+    }
+    #hotel_progressbar li:first-child:after {
+        /*connector not needed before the first step*/
+        content: none;
+    }
+    #hotel_progressbar li.active:before, #progressbar li.active:after {
+        background: #27AE60;
+        color: white;
+    }
+    #box {
+        width: 10;
+        height: 10;
+        border-style: solid;
+        border-width: 0 50px 50px 0;
+        border-color: transparent #007bff transparent transparent;
+        margin-top: -11px;
+        margin-left: 270px;
+    }
+    #box2 {
+        width: 10;
+        height: 10;
+        border-style: solid;
+        border-width: 0 50px 50px 0;
+        border-color: transparent #007bff transparent transparent;
+        margin-top: -11px;
+        margin-left: 270px;
+    }
+
+    .activedev{
+        display: block !important;
+    }
+    .hidedev{
+        display: none;
+    }
+</style>

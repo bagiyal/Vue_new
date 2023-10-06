@@ -1,0 +1,55 @@
+export default{
+    data(){
+        return{
+            mr:{
+                DateOfBirth: "जन्म तारीख",
+                Gender:" लिंग",
+                PanCardNo : "पॅनकार्ड क्र",
+                Address: "पत्ता",
+                Male: 'पुरुष',
+                Female: "स्त्री",
+                City: "शहर",
+                Phone:'फोन',
+                Email:'ई-मेल',
+                HomeTown:'मूळ गाव',
+                SelfPaidMember:'स्वत: पैसे देणारा सदस्य',
+                AddMembers:'सदस्य जोडा',
+                Select:'निवडा',
+                Relation:'संबंध',
+                State:" राज्य",
+                Country: "देश",
+                Pincode:" पिन कोड",
+                MarriageAnniversary:" लग्नाचा वाढदिवस",
+                NomineeforTravelInsurancePolicy: "ट्रॅव्हल इन्शुरन्स पॉलिसीसाठी नामनिर्देशित",
+                PreExistingDiseaseforTravelInsurancePolicy: "प्रवासविमा पॉलिसीसाठी अस्तित्वात असलेले रोग",
+                FoodPrefrences:"अन्न प्राधान्ये",
+                Veg:"शाकाहारी",
+                nonVeg:"मांसाहारी",
+                jain:"जैन",
+                PassportDetails: 'पासपोर्ट तपशील',
+                IssueDate:'जारी करण्याची तारीख ',
+                ExpDate: 'कालबाह्यता तारीख',
+                IssuePlace: 'जारी करण्याचे ठिकाण',
+                FirstName: 'पहिले नाव',
+                name:'नाव',
+                LastName: 'आडनाव',
+                PassportNumber:' पारपत्र क्रमांक',
+                PhotoID:'फोटो ओळख ',
+                IdType: ' ओळख प्रकार',
+                MemberFirstName:' सदस्याचे पहिले नाव',
+                MemberLastName:'सदस्य आडनाव',
+                IdNumber: 'ओळख क्रमांक',
+                PassportFront:'पासपोर्ट समोर',
+            PassportBack: 'पासपोर्ट परत',
+            MergedPassport: 'विलीन केलेले अपलोड',
+            PassportUpload: 'पासपोर्ट अपलोड',
+            DocumentUpload: 'दस्तऐवज अपलोड',
+                OtherDetails:'इतर तपशील',
+                formNote:'जर तुम्ही पासपोर्ट इमेज किंवा पीडीएफ विलीन केला असेल तरच हा विभाग वापरा!',
+                Yourtraveldateis:'तुमच्या प्रवासाची तारीख आहे',
+                Selectpreferredtraveldate:'पसंतीची प्रवास तारीख निवडा'
+
+            }
+        }
+    }
+}
